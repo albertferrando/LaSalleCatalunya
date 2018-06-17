@@ -7,13 +7,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.List;
+
+import cat.albertaleixbernat.lasallecatalunya.Network.CallBack;
+import cat.albertaleixbernat.lasallecatalunya.Network.NetworkManager;
 import cat.albertaleixbernat.lasallecatalunya.R;
 import cat.albertaleixbernat.lasallecatalunya.model.*;
 
 public class LogInActivity extends AppCompatActivity {
-    TextInputEditText nom_correu;
-    TextInputEditText contrasenya;
-    TextView error;
+    private TextView error;
+    private TextInputEditText nom_correu;
+    private TextInputEditText contrasenya;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
