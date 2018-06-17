@@ -7,9 +7,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.Map;
+
+import cat.albertaleixbernat.lasallecatalunya.Utils.JSONDecoder;
+import cat.albertaleixbernat.lasallecatalunya.model.School;
 
 /**
  * Created by AleixDiaz on 17/06/2018.
@@ -50,19 +59,21 @@ public class NetworkManager {
         AppController.getInstance().addToRequestQueue(schoolPost);
     }
 
-    public void getSchools (final CallBack<String> callBack) {
+    public void getSchools (final CallBack<List<School>> callBack) {
 
-        String url = createURL(new String[]{baseURL,getSchools});
+        String url = createURL(new String[]{getSchools});
 
         JsonRequest getSchools = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                callBack.onResponse("");
+                JsonObject jsonObject = new JsonParser().parse(response.toString()).getAsJsonObject();
+                List<School> schools = new JSONDecoder().parseSchools(jsonObject.getAsJsonArray("msg"));
+                callBack.onResponse(schools);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                callBack.onResponse("");
+                callBack.onResponse(null);
             }
         });
 
@@ -70,7 +81,7 @@ public class NetworkManager {
     }
 
     public void deleteSchools (final CallBack<String> callBack) {
-        String url = createURL(new String[]{baseURL,deleteSchools,schoolID, "2"});
+        String url = createURL(new String[]{deleteSchools,schoolID, "2"});
 
         JsonObjectRequest deleteRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override

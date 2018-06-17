@@ -6,17 +6,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import java.util.List;
+
+import cat.albertaleixbernat.lasallecatalunya.Network.CallBack;
+import cat.albertaleixbernat.lasallecatalunya.Network.NetworkManager;
 import cat.albertaleixbernat.lasallecatalunya.R;
 import cat.albertaleixbernat.lasallecatalunya.model.*;
 
 public class LogInActivity extends AppCompatActivity {
-    TextInputEditText nom_correu = findViewById(R.id.correu_nom);
-    TextInputEditText contrasenya = findViewById(R.id.contrasenya);
+    private TextInputEditText nom_correu;
+    private TextInputEditText contrasenya;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+        nom_correu = findViewById(R.id.correu_nom);
+        contrasenya = findViewById(R.id.contrasenya);
     }
 
     public void onRegisterButtonClick(View view) {
