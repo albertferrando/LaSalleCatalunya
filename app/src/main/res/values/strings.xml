@@ -2,4 +2,18 @@
     <string name="app_name">LaSalleCatalunya</string>
     <string name="register">Register</string>
     <string name="login">Log in</string>
+    <string name="error1">Fill all the fields!</string>
+    <string name="error2">This username is already taken!</string>
+    <string name="error3">This email is already used!</string>
+    <string name="error4">Passwords must coincide!</string>
+    <string name="error5">Incorrect credentials!</string>
+    <string name="correu_nom_hint">Username or Email</string>
+    <string name="password_hint">Password</string>
+    <string name="confirm_hint">Confirm Password</string>
+    <string name="lastname_hint">Lastname</string>
+    <string name="name_hint">Firstname</string>
+    <string name="username_hint">Username</string>
+    <string name="email_hint">Email</string>
+    <string name="login_title">Login for admins</string>
+    <string name="register_title">Register a new admin</string>
 </resources>

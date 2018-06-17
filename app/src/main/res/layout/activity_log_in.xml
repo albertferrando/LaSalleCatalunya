@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginEnd="16dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="22dp">
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -12,7 +16,7 @@
             android:id="@+id/correu_nom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="hint" />
+            android:hint="@string/correu_nom_hint" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -24,20 +28,35 @@
             android:id="@+id/contrasenya"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="hint" />
+            android:hint="@string/password_hint"
+            android:password="true" />
     </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/red"
+        android:textSize="16sp"
+        android:visibility="gone" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onLogInButtonClick"
-        android:text="@string/login" />
+        android:text="@string/login"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="12dp"/>
 
     <Button
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onRegisterButtonClick"
-        android:text="@string/register" />
+        android:text="@string/register"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="6dp" />
 </LinearLayout>
 
