@@ -80,8 +80,8 @@ public class NetworkManager {
         AppController.getInstance().addToRequestQueue(getSchools);
     }
 
-    public void deleteSchools (final CallBack<String> callBack) {
-        String url = createURL(new String[]{deleteSchools,schoolID, "2"});
+    public void deleteSchools (final CallBack<String> callBack, School school) {
+        String url = createURL(new String[]{deleteSchools,schoolID, school.getId()});
 
         JsonObjectRequest deleteRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override

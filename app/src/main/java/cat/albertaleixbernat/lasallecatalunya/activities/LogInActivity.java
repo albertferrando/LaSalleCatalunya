@@ -16,6 +16,7 @@ import cat.albertaleixbernat.lasallecatalunya.model.*;
 public class LogInActivity extends AppCompatActivity {
     private TextInputEditText nom_correu;
     private TextInputEditText contrasenya;
+    private CallBack<String> callBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,18 @@ public class LogInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_log_in);
         nom_correu = findViewById(R.id.correu_nom);
         contrasenya = findViewById(R.id.contrasenya);
+
+        NetworkManager nm = new NetworkManager();
+
+        callBack = new CallBack<String>() {
+            @Override
+            public void onResponse(String schools) {
+
+            }
+        };
+
+        nm.deleteSchools(callBack, new School("296"));
+
     }
 
     public void onRegisterButtonClick(View view) {

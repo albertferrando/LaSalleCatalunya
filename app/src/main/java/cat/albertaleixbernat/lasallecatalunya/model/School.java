@@ -16,6 +16,10 @@ public class School {
     private String isUniversitat;
     private String description;
 
+    public School(String id) {
+        this.id = id;
+    }
+
     public School(String id, String schoolName, String schoolAddress, String isInfantil, String isPrimaria, String isBatxillerat, String isFP, String isUniversitat, String description) {
         this.id = id;
         this.schoolName = schoolName;
