@@ -1,7 +1,9 @@
-package cat.albertaleixbernat.lasallecatalunya;
+package cat.albertaleixbernat.lasallecatalunya.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import cat.albertaleixbernat.lasallecatalunya.R;
 
 public class CentresActivity extends AppCompatActivity {
 
