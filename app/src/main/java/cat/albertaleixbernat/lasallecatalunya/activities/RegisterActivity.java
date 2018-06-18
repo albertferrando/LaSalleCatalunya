@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -24,6 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         username = findViewById(R.id.username);
         firstname = findViewById(R.id.firstname);
         lastname = findViewById(R.id.lastname);
@@ -31,7 +35,14 @@ public class RegisterActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         confirm = findViewById(R.id.confirm);
         error = findViewById(R.id.error);
-        setTitle(R.string.register_title);
+        getSupportActionBar().setTitle(R.string.register_title);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.toolbar, menu);
+        return true;
     }
 
     public void onRegisterButtonClick(View view) {
@@ -71,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
         mail.setText("");
         password.setText("");
         confirm.setText("");
-        Intent intent = new Intent(this, RegisterActivity.class);
+        Intent intent = new Intent(this, CentresAdminActivity.class);
         startActivity(intent);
     }
 }

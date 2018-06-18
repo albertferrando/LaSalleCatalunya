@@ -1,34 +1,34 @@
 package cat.albertaleixbernat.lasallecatalunya.model;
 
-/**
- * Created by AleixDiaz on 17/06/2018.
- */
+import java.util.Comparator;
 
 public class School {
 
     private String id;
     private String schoolName;
     private String schoolAddress;
-    private String isInfantil;
-    private String isPrimaria;
-    private String isBatxillerat;
-    private String isFP;
-    private String isUniversitat;
+    private Boolean isInfantil;
+    private Boolean isPrimaria;
+    private Boolean isBatxillerat;
+    private Boolean isFP;
+    private Boolean isUniversitat;
     private String description;
 
     public School(String id) {
         this.id = id;
     }
 
-    public School(String id, String schoolName, String schoolAddress, String isInfantil, String isPrimaria, String isBatxillerat, String isFP, String isUniversitat, String description) {
+    public School(String id, String schoolName, String schoolAddress, String isInfantil,
+                  String isPrimaria, String isBatxillerat, String isFP, String isUniversitat,
+                  String description) {
         this.id = id;
         this.schoolName = schoolName;
         this.schoolAddress = schoolAddress;
-        this.isInfantil = isInfantil;
-        this.isPrimaria = isPrimaria;
-        this.isBatxillerat = isBatxillerat;
-        this.isFP = isFP;
-        this.isUniversitat = isUniversitat;
+        this.isInfantil = isInfantil.equals("1");
+        this.isPrimaria = isPrimaria.equals("1");
+        this.isBatxillerat = isBatxillerat.equals("1");
+        this.isFP = isFP.equals("1");
+        this.isUniversitat = isUniversitat.equals("1");
         this.description = description;
     }
 
@@ -56,43 +56,43 @@ public class School {
         this.schoolAddress = schoolAddress;
     }
 
-    public String getIsInfantil() {
+    public Boolean getIsInfantil() {
         return isInfantil;
     }
 
-    public void setIsInfantil(String isInfantil) {
+    public void setIsInfantil(Boolean isInfantil) {
         this.isInfantil = isInfantil;
     }
 
-    public String getIsPrimaria() {
+    public Boolean getIsPrimaria() {
         return isPrimaria;
     }
 
-    public void setIsPrimaria(String isPrimaria) {
+    public void setIsPrimaria(Boolean isPrimaria) {
         this.isPrimaria = isPrimaria;
     }
 
-    public String getIsBatxillerat() {
+    public Boolean getIsBatxillerat() {
         return isBatxillerat;
     }
 
-    public void setIsBatxillerat(String isBatxillerat) {
+    public void setIsBatxillerat(Boolean isBatxillerat) {
         this.isBatxillerat = isBatxillerat;
     }
 
-    public String getIsFP() {
+    public Boolean getIsFP() {
         return isFP;
     }
 
-    public void setIsFP(String isFP) {
+    public void setIsFP(Boolean isFP) {
         this.isFP = isFP;
     }
 
-    public String getIsUniversitat() {
+    public Boolean getIsUniversitat() {
         return isUniversitat;
     }
 
-    public void setIsUniversitat(String isUniversitat) {
+    public void setIsUniversitat(Boolean isUniversitat) {
         this.isUniversitat = isUniversitat;
     }
 
@@ -103,4 +103,20 @@ public class School {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public static final Comparator<School> COMPARATOR_UP =
+            new Comparator<School>() {
+                @Override
+                public int compare(School s1, School s2) {
+                    return s1.getSchoolName().compareToIgnoreCase(s2.getSchoolName());
+                }
+            };
+
+    public static final Comparator<School> COMPARATOR_DOWN =
+            new Comparator<School>() {
+                @Override
+                public int compare(School s1, School s2) {
+                    return s2.getSchoolName().compareToIgnoreCase(s1.getSchoolName());
+                }
+            };
 }

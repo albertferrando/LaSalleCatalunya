@@ -15,4 +15,11 @@
     <string name="email_hint">Emial</string>
     <string name="login_title">Login for admins</string>
     <string name="register_title">Register a new admin</string>
+    <string name="infantil">Infantil</string>
+    <string name="primaria">Primary</string>
+    <string name="batxillerat">BAT</string>
+    <string name="fp">FP</string>
+    <string name="universitat">University</string>
+    <string name="sort_name">Sort by name</string>
+    <string name="add_title">Crear un nuevo centro</string>
 </resources>
