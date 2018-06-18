@@ -26,6 +26,7 @@ public class NetworkManager {
     private final static String getSchools = "?method=getSchools";
     private final static String deleteSchools = "?method=deleteSchool";
     private final static String schoolID = "&schoolId=";
+    private final static String addSchool = "?method=addSchool";
 
     public NetworkManager () {
     }
@@ -33,15 +34,19 @@ public class NetworkManager {
     public void addSchool () {
         StringRequest schoolPost = new StringRequest(Request.Method.POST, "", new Response.Listener<String>() {
             @Override
-            public void onResponse(String response) {
-                System.out.println(response);
+            public void onResponse(JSONObject response) {
+                NetworkResponse networkResponse = new NetworkResponse(response);
+                if (networkResponse.getRes() == 1) {
+
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println(error.getMessage());
             }
-        }) {
+        }){
+
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 return super.getParams();

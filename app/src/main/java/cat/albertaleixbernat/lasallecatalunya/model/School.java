@@ -1,40 +1,74 @@
 package cat.albertaleixbernat.lasallecatalunya.model;
 
 import java.io.Serializable;
+import java.io.Serializable;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Comparator;
 
 public class School implements Serializable {
 
+    private static final String [] PROVINCES =  {"barcelona", "tarragona", "girona","lleida"};
+
     private String id;
     private String schoolName;
     private String schoolAddress;
-    private Boolean isInfantil;
-    private Boolean isPrimaria;
-    private Boolean isBatxillerat;
-    private Boolean isFP;
-    private Boolean isUniversitat;
+    private String isInfantil;
+    private String isPrimaria;
+    private String isBatxillerat;
+    private String isFP;
+    private String isUniversitat;
+    private String isEso;
     private String description;
 
     public School(String id) {
         this.id = id;
     }
 
-    public School(String id, String schoolName, String schoolAddress, String isInfantil,
-                  String isPrimaria, String isBatxillerat, String isFP, String isUniversitat,
-                  String description) {
+    public School(String id, String schoolName, String schoolAddress, String isInfantil, String isPrimaria, String isEso, String isBatxillerat, String isFP, String isUniversitat, String description) {
         this.id = id;
+        this.isEso = isEso;
         this.schoolName = schoolName;
         this.schoolAddress = schoolAddress;
-        this.isInfantil = isInfantil.equals("1");
-        this.isPrimaria = isPrimaria.equals("1");
-        this.isBatxillerat = isBatxillerat.equals("1");
-        this.isFP = isFP.equals("1");
-        this.isUniversitat = isUniversitat.equals("1");
+        this.isInfantil = isInfantil;
+        this.isPrimaria = isPrimaria;
+        this.isBatxillerat = isBatxillerat;
+        this.isFP = isFP;
+        this.isUniversitat = isUniversitat;
         this.description = description;
+    }
+
+    public Map<String, String> encode () {
+        Map<String, String> params = new HashMap<>();
+        params.put("name",this.schoolName);
+        params.put("address", this.schoolAddress);
+        params.put("province", this.getProvince());
+        params.put("type", this.getType());
+        params.put("description", this.description);
+        return params;
     }
 
     public String getId() {
         return id;
+    }
+
+    public String getType () {
+
+        String a = true ? "0" : "1";
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(isInfantil).append(isPrimaria).append(isEso).append(isBatxillerat).append(isFP).append(isUniversitat);
+        return stringBuilder.toString();
+    }
+
+    public String getProvince () {
+        for (String province:PROVINCES) {
+            if (schoolAddress.contains(province)) {
+                return province;
+            }
+        }
+        return "NO_PROVINCE";
     }
 
     public void setId(String id) {
@@ -58,43 +92,51 @@ public class School implements Serializable {
     }
 
     public Boolean getIsInfantil() {
-        return isInfantil;
+        return isInfantil.equals("1");
     }
 
-    public void setIsInfantil(Boolean isInfantil) {
+    public void setIsInfantil(String isInfantil) {
         this.isInfantil = isInfantil;
     }
 
     public Boolean getIsPrimaria() {
-        return isPrimaria;
+        return isPrimaria.equals("1");
     }
 
-    public void setIsPrimaria(Boolean isPrimaria) {
+    public void setIsPrimaria(String isPrimaria) {
         this.isPrimaria = isPrimaria;
     }
 
     public Boolean getIsBatxillerat() {
-        return isBatxillerat;
+        return isBatxillerat.equals("1");
     }
 
-    public void setIsBatxillerat(Boolean isBatxillerat) {
+    public void setIsBatxillerat(String isBatxillerat) {
         this.isBatxillerat = isBatxillerat;
     }
 
     public Boolean getIsFP() {
-        return isFP;
+        return isFP.equals("1");
     }
 
-    public void setIsFP(Boolean isFP) {
+    public void setIsFP(String isFP) {
         this.isFP = isFP;
     }
 
     public Boolean getIsUniversitat() {
-        return isUniversitat;
+        return isUniversitat.equals("1");
     }
 
-    public void setIsUniversitat(Boolean isUniversitat) {
+    public void setIsUniversitat(String isUniversitat) {
         this.isUniversitat = isUniversitat;
+    }
+
+    public Boolean getIsEso() {
+        return isEso.equals("1");
+    }
+
+    public void setIsEso(String isEso) {
+        this.isEso = isEso;
     }
 
     public String getDescription() {
