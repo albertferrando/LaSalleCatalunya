@@ -2,6 +2,7 @@ package cat.albertaleixbernat.lasallecatalunya.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Comparator;
 
 /**
  * Created by AleixDiaz on 17/06/2018.
@@ -54,6 +55,9 @@ public class School {
     }
 
     public String getType () {
+
+        String a = true ? "0" : "1";
+
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(isInfantil).append(isPrimaria).append(isEso).append(isBatxillerat).append(isFP).append(isUniversitat);
         return stringBuilder.toString();
@@ -88,44 +92,52 @@ public class School {
         this.schoolAddress = schoolAddress;
     }
 
-    public String getIsInfantil() {
-        return isInfantil;
+    public Boolean getIsInfantil() {
+        return isInfantil.equals("1");
     }
 
     public void setIsInfantil(String isInfantil) {
         this.isInfantil = isInfantil;
     }
 
-    public String getIsPrimaria() {
-        return isPrimaria;
+    public Boolean getIsPrimaria() {
+        return isPrimaria.equals("1");
     }
 
     public void setIsPrimaria(String isPrimaria) {
         this.isPrimaria = isPrimaria;
     }
 
-    public String getIsBatxillerat() {
-        return isBatxillerat;
+    public Boolean getIsBatxillerat() {
+        return isBatxillerat.equals("1");
     }
 
     public void setIsBatxillerat(String isBatxillerat) {
         this.isBatxillerat = isBatxillerat;
     }
 
-    public String getIsFP() {
-        return isFP;
+    public Boolean getIsFP() {
+        return isFP.equals("1");
     }
 
     public void setIsFP(String isFP) {
         this.isFP = isFP;
     }
 
-    public String getIsUniversitat() {
-        return isUniversitat;
+    public Boolean getIsUniversitat() {
+        return isUniversitat.equals("1");
     }
 
     public void setIsUniversitat(String isUniversitat) {
         this.isUniversitat = isUniversitat;
+    }
+
+    public Boolean getIsEso() {
+        return isEso.equals("1");
+    }
+
+    public void setIsEso(String isEso) {
+        this.isEso = isEso;
     }
 
     public String getDescription() {
@@ -135,4 +147,20 @@ public class School {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public static final Comparator<School> COMPARATOR_UP =
+            new Comparator<School>() {
+                @Override
+                public int compare(School s1, School s2) {
+                    return s1.getSchoolName().compareToIgnoreCase(s2.getSchoolName());
+                }
+            };
+
+    public static final Comparator<School> COMPARATOR_DOWN =
+            new Comparator<School>() {
+                @Override
+                public int compare(School s1, School s2) {
+                    return s2.getSchoolName().compareToIgnoreCase(s1.getSchoolName());
+                }
+            };
 }

@@ -1,0 +1,76 @@
+package cat.albertaleixbernat.lasallecatalunya.activities;
+
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+import cat.albertaleixbernat.lasallecatalunya.R;
+import cat.albertaleixbernat.lasallecatalunya.adapters.ListAdapter;
+import cat.albertaleixbernat.lasallecatalunya.model.School;
+
+public class CentresAdminActivity extends AppCompatActivity {
+    ArrayList<School> schools;
+    ListAdapter adapter;
+    boolean isSort = false;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_centres_admin);
+        setTitle("");
+        schools = new ArrayList<>();
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        getSupportActionBar().setTitle("");
+        adapter = new ListAdapter(this, R.layout.simple_list_item, schools);
+        ListView list = findViewById(R.id.list);
+        list.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.toolbar_login, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.sort_button:
+                if(!isSort) {
+                    Collections.sort(schools, School.COMPARATOR_UP);
+                    isSort = true;
+                } else {
+                    Collections.sort(schools, School.COMPARATOR_DOWN);
+                    isSort = false;
+                }
+                adapter.notifyDataSetChanged();
+                break;
+
+            case R.id.logout_button:
+                Intent intent = new Intent(this, LogInActivity.class);
+                startActivity(intent);
+                break;
+        }
+        return false;
+    }
+
+    public void onAddSchoolClick(View view) {
+        Intent intent = new Intent(this, AddSchoolActivity.class);
+        startActivity(intent);
+    }
+}

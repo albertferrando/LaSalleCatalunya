@@ -25,4 +25,26 @@ public class DataManager {
         }
         return false;
     }
+
+    public boolean existsName(String s) {
+        for (User u: users) {
+            if(u.getNomUsuari().equals(s)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean existsMail(String s) {
+        for (User u: users) {
+            if(u.getCorreu().equals(s)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addUser(User u) {
+        users.add(u);
+    }
 }
