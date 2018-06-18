@@ -1,10 +1,15 @@
 package cat.albertaleixbernat.lasallecatalunya.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by AleixDiaz on 17/06/2018.
  */
 
 public class School {
+
+    private static final String [] PROVINCES =  {"barcelona", "tarragona", "girona","lleida"};
 
     private String id;
     private String schoolName;
@@ -14,14 +19,16 @@ public class School {
     private String isBatxillerat;
     private String isFP;
     private String isUniversitat;
+    private String isEso;
     private String description;
 
     public School(String id) {
         this.id = id;
     }
 
-    public School(String id, String schoolName, String schoolAddress, String isInfantil, String isPrimaria, String isBatxillerat, String isFP, String isUniversitat, String description) {
+    public School(String id, String schoolName, String schoolAddress, String isInfantil, String isPrimaria, String isEso, String isBatxillerat, String isFP, String isUniversitat, String description) {
         this.id = id;
+        this.isEso = isEso;
         this.schoolName = schoolName;
         this.schoolAddress = schoolAddress;
         this.isInfantil = isInfantil;
@@ -32,8 +39,33 @@ public class School {
         this.description = description;
     }
 
+    public Map<String, String> encode () {
+        Map<String, String> params = new HashMap<>();
+        params.put("name",this.schoolName);
+        params.put("address", this.schoolAddress);
+        params.put("province", this.getProvince());
+        params.put("type", this.getType());
+        params.put("description", this.description);
+        return params;
+    }
+
     public String getId() {
         return id;
+    }
+
+    public String getType () {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(isInfantil).append(isPrimaria).append(isEso).append(isBatxillerat).append(isFP).append(isUniversitat);
+        return stringBuilder.toString();
+    }
+
+    public String getProvince () {
+        for (String province:PROVINCES) {
+            if (schoolAddress.contains(province)) {
+                return province;
+            }
+        }
+        return "NO_PROVINCE";
     }
 
     public void setId(String id) {
