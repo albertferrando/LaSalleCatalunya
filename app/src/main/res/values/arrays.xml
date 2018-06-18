@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner">
+        <item>Barcelona</item>
+        <item>Tarragona</item>
+        <item>Gerona</item>
+        <item>Lérida</item>
+    </string-array>
+</resources>

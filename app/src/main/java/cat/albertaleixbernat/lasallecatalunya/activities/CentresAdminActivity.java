@@ -1,5 +1,6 @@
 package cat.albertaleixbernat.lasallecatalunya.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,35 +11,55 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
+import cat.albertaleixbernat.lasallecatalunya.Network.CallBack;
+import cat.albertaleixbernat.lasallecatalunya.Network.NetworkManager;
 import cat.albertaleixbernat.lasallecatalunya.R;
 import cat.albertaleixbernat.lasallecatalunya.adapters.ListAdapter;
 import cat.albertaleixbernat.lasallecatalunya.model.School;
 
 public class CentresAdminActivity extends AppCompatActivity {
-    ArrayList<School> schools;
+    ListView list;
+    List<School> schools;
     ListAdapter adapter;
     boolean isSort = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_centres_admin);
-        setTitle("");
         schools = new ArrayList<>();
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setTitle("");
         adapter = new ListAdapter(this, R.layout.simple_list_item, schools);
-        ListView list = findViewById(R.id.list);
+        list = findViewById(R.id.list);
         list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getParent(), DetailsActivity.class);
+                intent.putExtra("school", schools.get(i));
+                startActivity(intent);
+            }
+        });
+        CallBack callBack = new CallBack<List<School>>() {
+            @Override
+            public void onResponse(List<School> response) {
+                schools = response;
+            }
+        };
+        NetworkManager nm = new NetworkManager();
+        nm.getSchools(callBack);
+        adapter.notifyDataSetChanged();
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -1,8 +1,9 @@
 package cat.albertaleixbernat.lasallecatalunya.model;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class School {
+public class School implements Serializable {
 
     private String id;
     private String schoolName;

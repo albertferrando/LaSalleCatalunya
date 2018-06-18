@@ -3,10 +3,6 @@ package cat.albertaleixbernat.lasallecatalunya.Network;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by AleixDiaz on 17/06/2018.
- */
-
 public class NetworkResponse {
 
     private int res;

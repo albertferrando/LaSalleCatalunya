@@ -9,14 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
+import java.util.List;
 
 import cat.albertaleixbernat.lasallecatalunya.R;
 import cat.albertaleixbernat.lasallecatalunya.model.School;
 
 public class ListAdapter extends ArrayAdapter<School> {
-    public ListAdapter(Context context, int layout, ArrayList<School> items) {
+    public ListAdapter(Context context, int layout, List<School> items) {
         super(context, layout, items);
     }
 
@@ -65,4 +64,6 @@ public class ListAdapter extends ArrayAdapter<School> {
 
         return v;
     }
+
+
 }

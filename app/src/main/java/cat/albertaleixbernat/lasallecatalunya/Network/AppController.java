@@ -7,10 +7,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-/**
- * Created by AleixDiaz on 17/06/2018.
- */
-
 public class AppController extends Application {
 
     public static final String TAG = AppController.class
@@ -54,5 +50,4 @@ public class AppController extends Application {
             mRequestQueue.cancelAll(tag);
         }
     }
-
 }

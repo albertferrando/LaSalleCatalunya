@@ -20,10 +20,6 @@ import java.util.Map;
 import cat.albertaleixbernat.lasallecatalunya.Utils.JSONDecoder;
 import cat.albertaleixbernat.lasallecatalunya.model.School;
 
-/**
- * Created by AleixDiaz on 17/06/2018.
- */
-
 public class NetworkManager {
 
     private final static String baseURL = "https://testapi-pprog2.azurewebsites.net/api/schools.php";
@@ -34,8 +30,7 @@ public class NetworkManager {
     public NetworkManager () {
     }
 
-    void addSchool () {
-
+    public void addSchool () {
         StringRequest schoolPost = new StringRequest(Request.Method.POST, "", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -49,9 +44,6 @@ public class NetworkManager {
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-
-
-
                 return super.getParams();
             }
         };
