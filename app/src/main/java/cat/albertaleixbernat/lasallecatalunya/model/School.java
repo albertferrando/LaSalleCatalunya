@@ -41,6 +41,7 @@ public class School implements Serializable {
 
     public Map<String, String> encode () {
         Map<String, String> params = new HashMap<>();
+        params.put("method","addSchool");
         params.put("name",this.schoolName);
         params.put("address", this.schoolAddress);
         params.put("province", this.getProvince());
@@ -49,6 +50,21 @@ public class School implements Serializable {
         return params;
     }
 
+    /*public String encode () {
+        StringBuilder stringBuilder = new StringBuilder("{");
+        stringBuilder.append(encodeVar("method", "addSchool")).append(",")
+                .append(encodeVar("name", schoolName)).append(",")
+                .append(encodeVar("address",schoolAddress)).append(",")
+                .append(encodeVar("province", getProvince())).append(",")
+                .append(encodeVar("type", getType())).append(",")
+                .append(encodeVar("description", description)).append("}");
+        return stringBuilder.toString();
+    }
+
+    private String encodeVar (String name, String content) {
+        return "\"" + name + "\":\"" + content + "\"";
+    }
+*/
     public String getId() {
         return id;
     }

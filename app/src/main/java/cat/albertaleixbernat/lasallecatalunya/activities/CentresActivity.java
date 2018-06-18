@@ -27,7 +27,7 @@ public class CentresActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_centres);
-        adapter = new ListAdapter(this, R.layout.simple_list_item, schools);
+        adapter = new ListAdapter(schools,this);
         list = findViewById(R.id.list);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -40,8 +40,8 @@ public class CentresActivity extends AppCompatActivity {
         });
         CallBack callBack = new CallBack<List<School>>() {
             @Override
-            public void onResponse(List<School> list) {
-                schools = list;
+            public void onResponse(List<School> response) {
+                adapter.updateData(response);
             }
         };
         NetworkManager nm = new NetworkManager();

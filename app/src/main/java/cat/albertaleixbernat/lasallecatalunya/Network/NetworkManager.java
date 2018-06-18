@@ -31,22 +31,19 @@ public class NetworkManager {
     public NetworkManager () {
     }
 
-    public void addSchool () {
-        StringRequest schoolPost = new StringRequest(Request.Method.POST, "", new Response.Listener<String>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                NetworkResponse networkResponse = new NetworkResponse(response);
-                if (networkResponse.getRes() == 1) {
+    public void addSchool (final School school, final CallBack<Boolean> callBack) {
 
-                }
+        StringRequest schoolPost = new StringRequest(Request.Method.POST, baseURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                callBack.onResponse(false);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println(error.getMessage());
+                callBack.onResponse(true);
             }
-        }){
-
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 return super.getParams();
@@ -57,7 +54,6 @@ public class NetworkManager {
     }
 
     public void getSchools (final CallBack<List<School>> callBack) {
-
         String url = createURL(new String[]{getSchools});
 
         JsonRequest getSchools = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -73,7 +69,6 @@ public class NetworkManager {
                 callBack.onResponse(null);
             }
         });
-
         AppController.getInstance().addToRequestQueue(getSchools);
     }
 

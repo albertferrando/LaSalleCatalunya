@@ -37,7 +37,7 @@ public class CentresAdminActivity extends AppCompatActivity {
         schools = new ArrayList<>();
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setTitle("");
-        adapter = new ListAdapter(this, R.layout.simple_list_item, schools);
+        adapter = new ListAdapter(schools, this);
         list = findViewById(R.id.list);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -51,14 +51,12 @@ public class CentresAdminActivity extends AppCompatActivity {
         CallBack callBack = new CallBack<List<School>>() {
             @Override
             public void onResponse(List<School> response) {
-                schools = response;
+                adapter.updateData(response);
             }
         };
         NetworkManager nm = new NetworkManager();
         nm.getSchools(callBack);
-        adapter.notifyDataSetChanged();
     }
-
 
 
     @Override
