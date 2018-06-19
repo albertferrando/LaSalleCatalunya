@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">LaSalleCatalunya</string>
     <string name="register">Register</string>
     <string name="login">Log in</string>
     <string name="error1">Fill all the fields!</string>
@@ -11,8 +11,9 @@
     <string name="password_hint">Password</string>
     <string name="confirm_hint">Confirm Password</string>
     <string name="lastname_hint">Lastname</string>
+    <string name="name_hint">Firstname</string>
     <string name="username_hint">Username</string>
-    <string name="email_hint">Emial</string>
+    <string name="email_hint">Email</string>
     <string name="login_title">Login for admins</string>
     <string name="register_title">Register a new admin</string>
     <string name="infantil">Infantil</string>
@@ -21,12 +22,13 @@
     <string name="fp">FP</string>
     <string name="universitat">University</string>
     <string name="sort_name">Sort by name</string>
+    <string name="logout">Log out</string>
     <string name="add_title">Crear un nuevo centro</string>
     <string name="spinner_title">Mostra</string>
     <string name="map">Mapa</string>
-    <string-array name="spinner_items">
-        <item>Tots</item>
-        <item>Escoles</item>
-        <item>Altres</item>
-    </string-array>
+    <string name="nom_centre">School name</string>
+    <string name="adreca_centre">Dirección del centro</string>
+    <string name="add_school">Crear nuevo centro</string>
+    <string name="please_wait">Un momento por favor...</string>
+    <string name="eso">ESO</string>
 </resources>

@@ -24,7 +24,10 @@
         </activity>
         <activity android:name=".activities.RegisterActivity"/>
         <activity android:name=".activities.CentresAdminActivity" />
-        <activity android:name=".activities.AddSchoolActivity"></activity>
+        <activity android:name=".activities.AddSchoolActivity" />
+        <activity android:name=".activities.DetailsActivity">
+
+        </activity>
     </application>
 
 </manifest>

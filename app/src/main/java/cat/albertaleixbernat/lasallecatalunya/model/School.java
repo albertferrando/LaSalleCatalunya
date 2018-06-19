@@ -1,14 +1,13 @@
 package cat.albertaleixbernat.lasallecatalunya.model;
 
+import java.io.Serializable;
+import java.io.Serializable;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Comparator;
 
-/**
- * Created by AleixDiaz on 17/06/2018.
- */
-
-public class School {
+public class School implements Serializable {
 
     private static final String [] PROVINCES =  {"barcelona", "tarragona", "girona","lleida"};
 
@@ -42,6 +41,7 @@ public class School {
 
     public Map<String, String> encode () {
         Map<String, String> params = new HashMap<>();
+        params.put("method","addSchool");
         params.put("name",this.schoolName);
         params.put("address", this.schoolAddress);
         params.put("province", this.getProvince());
@@ -50,6 +50,21 @@ public class School {
         return params;
     }
 
+    /*public String encode () {
+        StringBuilder stringBuilder = new StringBuilder("{");
+        stringBuilder.append(encodeVar("method", "addSchool")).append(",")
+                .append(encodeVar("name", schoolName)).append(",")
+                .append(encodeVar("address",schoolAddress)).append(",")
+                .append(encodeVar("province", getProvince())).append(",")
+                .append(encodeVar("type", getType())).append(",")
+                .append(encodeVar("description", description)).append("}");
+        return stringBuilder.toString();
+    }
+
+    private String encodeVar (String name, String content) {
+        return "\"" + name + "\":\"" + content + "\"";
+    }
+*/
     public String getId() {
         return id;
     }

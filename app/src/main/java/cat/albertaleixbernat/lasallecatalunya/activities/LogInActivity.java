@@ -46,10 +46,10 @@ public class LogInActivity extends AppCompatActivity {
     public void onLogInButtonClick(View view) {
         error.setVisibility(View.GONE);
         if(DataManager.getInstance().logIn(nom_correu.getText().toString(), contrasenya.getText().toString())) {
-            nom_correu.setText("");
-            contrasenya.setText("");
             Intent intent = new Intent(this, CentresAdminActivity.class);
             startActivity(intent);
+            nom_correu.setText("");
+            contrasenya.setText("");
         } else {
             error.setText(R.string.error5);
             error.setVisibility(View.VISIBLE);

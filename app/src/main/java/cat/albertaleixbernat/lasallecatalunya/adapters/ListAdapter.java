@@ -6,28 +6,46 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
+import java.util.List;
 
 import cat.albertaleixbernat.lasallecatalunya.R;
 import cat.albertaleixbernat.lasallecatalunya.model.School;
 
-public class ListAdapter extends ArrayAdapter<School> {
-    public ListAdapter(Context context, int layout, ArrayList<School> items) {
-        super(context, layout, items);
+public class ListAdapter extends BaseAdapter {
+    private List<School> list;
+    private Context context;
+
+    public ListAdapter(List<School> list, Context context) {
+        this.list = list;
+        this.context = context;
+    }
+
+    @Override
+    public int getCount() {
+        if (list == null) return 0;
+        return list.size();
+    }
+
+    @Override
+    public School getItem(int i) {
+        return list.get(i);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return 0;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View v = convertView;
-
         if (v == null) {
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            v = inflater.inflate(R.layout.simple_list_item, null);
+            LayoutInflater inflater = LayoutInflater.from(context);
+            v = inflater.inflate(R.layout.simple_list_item, parent, false);
         }
 
         School s = getItem(position);
@@ -36,21 +54,25 @@ public class ListAdapter extends ArrayAdapter<School> {
             TextView name = v.findViewById(R.id.nom_centre);
             TextView address = v.findViewById(R.id.adreca_centre);
             ImageView img = v.findViewById(R.id.imatge);
-            TextView inf = v.findViewById(R.id.infantil);
+            TextView inf = v.findViewById(R .id.infantil);
             TextView pri = v.findViewById(R.id.primaria);
+            TextView eso = v.findViewById(R.id.eso);
             TextView bat = v.findViewById(R.id.batxillerat);
             TextView fp = v.findViewById(R.id.fp);
             TextView uni = v.findViewById(R.id.uni);
 
             name.setText(s.getSchoolName());
             address.setText(s.getSchoolAddress());
-            img.setBackgroundColor(getContext().getColor(R.color.red));
+            img.setBackgroundColor(context.getColor(R.color.red));
 
             if(s.getIsInfantil()) {
                 inf.setVisibility(View.VISIBLE);
             }
             if(s.getIsPrimaria()) {
                 pri.setVisibility(View.VISIBLE);
+            }
+            if(s.getIsEso()) {
+                eso.setVisibility(View.VISIBLE);
             }
             if(s.getIsBatxillerat()) {
                 bat.setVisibility(View.VISIBLE);
@@ -62,7 +84,12 @@ public class ListAdapter extends ArrayAdapter<School> {
                 uni.setVisibility(View.VISIBLE);
             }
         }
-
         return v;
+    }
+
+    public void updateData(List<School> response) {
+        notifyDataSetInvalidated();
+        this.list = response;
+        notifyDataSetChanged();
     }
 }

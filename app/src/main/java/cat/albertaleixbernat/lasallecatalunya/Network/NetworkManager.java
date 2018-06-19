@@ -20,10 +20,6 @@ import java.util.Map;
 import cat.albertaleixbernat.lasallecatalunya.Utils.JSONDecoder;
 import cat.albertaleixbernat.lasallecatalunya.model.School;
 
-/**
- * Created by AleixDiaz on 17/06/2018.
- */
-
 public class NetworkManager {
 
     private final static String baseURL = "https://testapi-pprog2.azurewebsites.net/api/schools.php";
@@ -35,28 +31,22 @@ public class NetworkManager {
     public NetworkManager () {
     }
 
-    public void addSchool (final School school) {
+    public void addSchool (final School school, final CallBack<Boolean> callBack) {
 
-        String url = createURL(new String[]{addSchool});
-
-        JsonRequest schoolPost = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+        StringRequest schoolPost = new StringRequest(Request.Method.POST, baseURL, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
-                NetworkResponse networkResponse = new NetworkResponse(response);
-                if (networkResponse.getRes() == 1) {
-
-                }
+            public void onResponse(String response) {
+                callBack.onResponse(false);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println(error.getMessage());
+                callBack.onResponse(true);
             }
-        }){
-
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                return school.encode();
+                return super.getParams();
             }
         };
 
@@ -64,7 +54,6 @@ public class NetworkManager {
     }
 
     public void getSchools (final CallBack<List<School>> callBack) {
-
         String url = createURL(new String[]{getSchools});
 
         JsonRequest getSchools = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -80,7 +69,6 @@ public class NetworkManager {
                 callBack.onResponse(null);
             }
         });
-
         AppController.getInstance().addToRequestQueue(getSchools);
     }
 

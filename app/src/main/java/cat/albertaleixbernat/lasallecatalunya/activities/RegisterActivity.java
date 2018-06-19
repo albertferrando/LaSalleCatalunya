@@ -76,13 +76,13 @@ public class RegisterActivity extends AppCompatActivity {
         u.setCorreu(mail.getText().toString());
         u.setPassword(password.getText().toString());
         DataManager.getInstance().addUser(u);
+        Intent intent = new Intent(this, CentresAdminActivity.class);
+        startActivity(intent);
         username.setText("");
         firstname.setText("");
         lastname.setText("");
         mail.setText("");
         password.setText("");
         confirm.setText("");
-        Intent intent = new Intent(this, CentresAdminActivity.class);
-        startActivity(intent);
     }
 }
