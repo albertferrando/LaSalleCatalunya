@@ -27,4 +27,6 @@
     <string name="nom_centre">School name</string>
     <string name="adreca_centre">Dirección del centro</string>
     <string name="add_school">Crear nuevo centro</string>
+    <string name="please_wait">Un momento por favor...</string>
+    <string name="eso">ESO</string>
 </resources>

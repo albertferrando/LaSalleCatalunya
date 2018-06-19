@@ -15,8 +15,8 @@ import cat.albertaleixbernat.lasallecatalunya.R;
 import cat.albertaleixbernat.lasallecatalunya.model.School;
 
 public class ListAdapter extends BaseAdapter {
-    List<School> list;
-    Context context;
+    private List<School> list;
+    private Context context;
 
     public ListAdapter(List<School> list, Context context) {
         this.list = list;
@@ -56,6 +56,7 @@ public class ListAdapter extends BaseAdapter {
             ImageView img = v.findViewById(R.id.imatge);
             TextView inf = v.findViewById(R .id.infantil);
             TextView pri = v.findViewById(R.id.primaria);
+            TextView eso = v.findViewById(R.id.eso);
             TextView bat = v.findViewById(R.id.batxillerat);
             TextView fp = v.findViewById(R.id.fp);
             TextView uni = v.findViewById(R.id.uni);
@@ -69,6 +70,9 @@ public class ListAdapter extends BaseAdapter {
             }
             if(s.getIsPrimaria()) {
                 pri.setVisibility(View.VISIBLE);
+            }
+            if(s.getIsEso()) {
+                eso.setVisibility(View.VISIBLE);
             }
             if(s.getIsBatxillerat()) {
                 bat.setVisibility(View.VISIBLE);
@@ -85,6 +89,7 @@ public class ListAdapter extends BaseAdapter {
 
     public void updateData(List<School> response) {
         notifyDataSetInvalidated();
+        this.list = response;
         notifyDataSetChanged();
     }
 }

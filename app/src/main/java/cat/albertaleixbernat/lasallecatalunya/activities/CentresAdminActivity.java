@@ -29,6 +29,7 @@ public class CentresAdminActivity extends AppCompatActivity {
     List<School> schools;
     ListAdapter adapter;
     boolean isSort = false;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,21 +44,28 @@ public class CentresAdminActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getParent(), DetailsActivity.class);
+                Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
                 intent.putExtra("school", schools.get(i));
                 startActivity(intent);
             }
         });
-        CallBack callBack = new CallBack<List<School>>() {
-            @Override
-            public void onResponse(List<School> response) {
-                adapter.updateData(response);
-            }
-        };
         NetworkManager nm = new NetworkManager();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.please_wait));
+        progressDialog.show();
         nm.getSchools(callBack);
     }
 
+    CallBack callBack = new CallBack<List<School>>() {
+        @Override
+        public void onResponse(List<School> response) {
+            if(progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+            schools = response;
+            adapter.updateData(response);
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

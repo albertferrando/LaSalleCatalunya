@@ -1,5 +1,6 @@
 package cat.albertaleixbernat.lasallecatalunya.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ public class CentresActivity extends AppCompatActivity {
     ListView list;
     List<School> schools;
     ListAdapter adapter;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +43,17 @@ public class CentresActivity extends AppCompatActivity {
         CallBack callBack = new CallBack<List<School>>() {
             @Override
             public void onResponse(List<School> response) {
+                if(progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+                schools = response;
                 adapter.updateData(response);
             }
         };
         NetworkManager nm = new NetworkManager();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.please_wait));
+        progressDialog.show();
         nm.getSchools(callBack);
     }
 }

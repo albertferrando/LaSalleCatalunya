@@ -36,6 +36,7 @@
                 android:layout_weight="1">
 
                 <android.support.design.widget.TextInputEditText
+                    android:id="@+id/nom_centre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/nom_centre" />
@@ -47,10 +48,11 @@
                 android:layout_weight="1">
 
                 <android.support.design.widget.TextInputEditText
+                    android:id="@+id/adreca_centre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/adreca_centre"
-                    android:layout_marginBottom="16dp"/>
+                    android:layout_marginBottom="16dp"
+                    android:hint="@string/adreca_centre" />
             </android.support.design.widget.TextInputLayout>
 
             <Spinner
@@ -69,14 +71,14 @@
                 android:layout_marginBottom="8dp">
 
                 <CheckBox
-                    android:id="@+id/checkBox2"
+                    android:id="@+id/infantil"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/infantil" />
 
                 <CheckBox
-                    android:id="@+id/checkBox"
+                    android:id="@+id/primaria"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -91,18 +93,18 @@
                 android:layout_marginBottom="8dp">
 
                 <CheckBox
-                    android:id="@+id/checkBox3"
+                    android:id="@+id/eso"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/eso" />
+
+                <CheckBox
+                    android:id="@+id/bat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/batxillerat" />
-
-                <CheckBox
-                    android:id="@+id/checkBox5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/fp" />
             </LinearLayout>
 
             <LinearLayout
@@ -113,13 +115,22 @@
                 android:layout_marginBottom="8dp">
 
                 <CheckBox
-                    android:id="@+id/checkBox4"
+                    android:id="@+id/fp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/fp" />
+
+                <CheckBox
+                    android:id="@+id/uni"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="@string/universitat" />
             </LinearLayout>
 
             <EditText
+                android:id="@+id/descripcio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"

@@ -47,11 +47,12 @@
                 android:text="@string/primaria" />
 
             <TextView
-                android:id="@+id/batxillerat"
+                android:id="@+id/eso"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/batxillerat" />
+                android:text="@string/eso" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -61,15 +62,22 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/batxillerat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/batxillerat" />
+
+            <TextView
                 android:id="@+id/fp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/fp" />
 
             <TextView
                 android:id="@+id/uni"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/universitat" />

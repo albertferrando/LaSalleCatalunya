@@ -29,4 +29,6 @@
     <string name="add_school">Crear nuevo centro</string>
     <string name="description_hint">Descripción</string>
     <string name="provincia">Provincia</string>
+    <string name="please_wait">Un momento por favor...</string>
+    <string name="eso">ESO</string>
 </resources>
