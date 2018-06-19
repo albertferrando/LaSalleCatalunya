@@ -49,28 +49,30 @@ public class DetailsActivity extends AppCompatActivity {
         ImageView img = findViewById(R.id.img);
 
         School s = (School)getIntent().getSerializableExtra("school");
-        img.setImageDrawable(ContextCompat.getDrawable(this, DataManager.getInstance().
-                getPhoto(s.getFoto())));
-        descripcio.setText(s.getDescription());
-        nom.setText(s.getSchoolName());
-        adreca.setText(s.getSchoolAddress());
-        if(s.getIsInfantil()) {
-            inf.setVisibility(View.VISIBLE);
-        }
-        if(s.getIsPrimaria()) {
-            pri.setVisibility(View.VISIBLE);
-        }
-        if(s.getIsEso()) {
-            eso.setVisibility(View.VISIBLE);
-        }
-        if(s.getIsBatxillerat()) {
-            bat.setVisibility(View.VISIBLE);
-        }
-        if(s.getIsFP()) {
-            fp.setVisibility(View.VISIBLE);
-        }
-        if(s.getIsUniversitat()) {
-            uni.setVisibility(View.VISIBLE);
+
+        if(s != null) {
+            img.setImageDrawable(ContextCompat.getDrawable(this, s.getFoto()));
+            descripcio.setText(s.getDescription());
+            nom.setText(s.getSchoolName());
+            adreca.setText(s.getSchoolAddress());
+            if (s.getIsInfantil()) {
+                inf.setVisibility(View.VISIBLE);
+            }
+            if (s.getIsPrimaria()) {
+                pri.setVisibility(View.VISIBLE);
+            }
+            if (s.getIsEso()) {
+                eso.setVisibility(View.VISIBLE);
+            }
+            if (s.getIsBatxillerat()) {
+                bat.setVisibility(View.VISIBLE);
+            }
+            if (s.getIsFP()) {
+                fp.setVisibility(View.VISIBLE);
+            }
+            if (s.getIsUniversitat()) {
+                uni.setVisibility(View.VISIBLE);
+            }
         }
     }
 

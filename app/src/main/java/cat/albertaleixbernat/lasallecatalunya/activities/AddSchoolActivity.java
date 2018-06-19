@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,6 +19,7 @@ import java.util.UUID;
 import cat.albertaleixbernat.lasallecatalunya.Network.CallBack;
 import cat.albertaleixbernat.lasallecatalunya.Network.NetworkManager;
 import cat.albertaleixbernat.lasallecatalunya.R;
+import cat.albertaleixbernat.lasallecatalunya.model.DataManager;
 import cat.albertaleixbernat.lasallecatalunya.model.School;
 
 public class AddSchoolActivity extends AppCompatActivity {
@@ -57,7 +59,7 @@ public class AddSchoolActivity extends AppCompatActivity {
                 adreca.getText().toString(), inf.isChecked() ? "1" : "0", pri.isChecked() ? "1" : "0",
                 eso.isChecked() ? "1" : "0", bat.isChecked() ? "1" : "0", fp.isChecked() ? "1" : "0",
                 uni.isChecked() ? "1" : "0", descripcio.getText().toString());
-
+        s.setFoto(DataManager.getInstance().getPhoto());
         networkManager.addSchool(s, callBack);
         Intent intent = new Intent(this, CentresAdminActivity.class);
         startActivity(intent);
@@ -68,6 +70,11 @@ public class AddSchoolActivity extends AppCompatActivity {
         public void onResponse(Boolean response) {
             if(progressDialog.isShowing()) {
                 progressDialog.dismiss();
+            }
+            if(!response) {
+                Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), R.string.success, Toast.LENGTH_LONG).show();
             }
         }
     };

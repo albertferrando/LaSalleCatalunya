@@ -46,7 +46,7 @@ public class CentresAdminActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
-                intent.putExtra("image", DataManager.getInstance().getActual());
+                intent.putExtra("school", schools.get(i));
                 startActivity(intent);
             }
         });
@@ -64,6 +64,9 @@ public class CentresAdminActivity extends AppCompatActivity {
                 progressDialog.dismiss();
             }
             schools = response;
+            for(School s: schools) {
+                s.setFoto(DataManager.getInstance().getPhoto());
+            }
             adapter.updateData(response);
         }
     };

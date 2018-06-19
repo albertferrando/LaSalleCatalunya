@@ -31,4 +31,6 @@
     <string name="add_school">Crear nuevo centro</string>
     <string name="please_wait">Un momento por favor...</string>
     <string name="eso">ESO</string>
+    <string name="error">Error al añadir la nueva escuela</string>
+    <string name="success">Escuela añadida con éxito</string>
 </resources>
