@@ -24,6 +24,8 @@
     <string name="sort_name">Sort by name</string>
     <string name="logout">Log out</string>
     <string name="add_title">Crear un nuevo centro</string>
+    <string name="spinner_title">Muestra</string>
+    <string name="map">Mapa</string>
     <string name="nom_centre">School name</string>
     <string name="adreca_centre">Dirección del centro</string>
     <string name="add_school">Crear nuevo centro</string>

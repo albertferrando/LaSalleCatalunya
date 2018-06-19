@@ -6,4 +6,9 @@
         <item>Gerona</item>
         <item>Lérida</item>
     </string-array>
+    <string-array name="spinner_items">
+        <item>Tots</item>
+        <item>Escoles</item>
+        <item>Altres</item>
+    </string-array>
 </resources>
