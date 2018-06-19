@@ -22,6 +22,7 @@ import cat.albertaleixbernat.lasallecatalunya.Network.CallBack;
 import cat.albertaleixbernat.lasallecatalunya.Network.NetworkManager;
 import cat.albertaleixbernat.lasallecatalunya.R;
 import cat.albertaleixbernat.lasallecatalunya.adapters.ListAdapter;
+import cat.albertaleixbernat.lasallecatalunya.model.DataManager;
 import cat.albertaleixbernat.lasallecatalunya.model.School;
 
 public class CentresAdminActivity extends AppCompatActivity {
@@ -45,7 +46,7 @@ public class CentresAdminActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
-                intent.putExtra("school", schools.get(i));
+                intent.putExtra("image", DataManager.getInstance().getActual());
                 startActivity(intent);
             }
         });

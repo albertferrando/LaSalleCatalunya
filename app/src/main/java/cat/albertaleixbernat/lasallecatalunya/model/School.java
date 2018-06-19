@@ -21,6 +21,7 @@ public class School implements Serializable {
     private String isUniversitat;
     private String isEso;
     private String description;
+    private int foto;
 
     public School(String id) {
         this.id = id;
@@ -69,9 +70,9 @@ public class School implements Serializable {
         return id;
     }
 
-    public String getType () {
+    private String getType() {
 
-        String a = true ? "0" : "1";
+        String a = "0";
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(isInfantil).append(isPrimaria).append(isEso).append(isBatxillerat).append(isFP).append(isUniversitat);
@@ -85,6 +86,14 @@ public class School implements Serializable {
             }
         }
         return "NO_PROVINCE";
+    }
+
+    public int getFoto() {
+        return foto;
+    }
+
+    public void setFoto(int foto) {
+        this.foto = foto;
     }
 
     public void setId(String id) {

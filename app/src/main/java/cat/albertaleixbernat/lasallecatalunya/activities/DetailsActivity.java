@@ -16,6 +16,7 @@ import android.widget.TextView;
 import java.io.File;
 
 import cat.albertaleixbernat.lasallecatalunya.R;
+import cat.albertaleixbernat.lasallecatalunya.model.DataManager;
 import cat.albertaleixbernat.lasallecatalunya.model.School;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -34,8 +35,6 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        ImageView img = findViewById(R.id.img);
-        img.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_action_name));
 
         descripcio = findViewById(R.id.description);
         descripcio.setKeyListener(null);
@@ -47,7 +46,12 @@ public class DetailsActivity extends AppCompatActivity {
         bat = findViewById(R.id.bat);
         fp = findViewById(R.id.fp);
         uni = findViewById(R.id.uni);
+        ImageView img = findViewById(R.id.img);
+
         School s = (School)getIntent().getSerializableExtra("school");
+        img.setImageDrawable(ContextCompat.getDrawable(this, DataManager.getInstance().
+                getPhoto(s.getFoto())));
+        descripcio.setText(s.getDescription());
         nom.setText(s.getSchoolName());
         adreca.setText(s.getSchoolAddress());
         if(s.getIsInfantil()) {
@@ -71,7 +75,7 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     public void onMapButtonClicked(View view) {
-        Intent intent = new Intent(this, MapActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MapActivity.class);
         startActivity(intent);
     }
 }

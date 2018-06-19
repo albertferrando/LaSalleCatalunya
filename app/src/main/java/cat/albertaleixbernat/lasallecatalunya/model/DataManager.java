@@ -4,9 +4,13 @@ import android.text.Editable;
 
 import java.util.ArrayList;
 
+import cat.albertaleixbernat.lasallecatalunya.R;
+
 public class DataManager {
     private static final DataManager ourInstance = new DataManager();
     private ArrayList<User> users;
+    private int[] fotos = {R.drawable.f1, R.drawable.f2, R.drawable.f3, R.drawable.f4, R.drawable.f5};
+    private int actual = 0;
 
     public static DataManager getInstance() {
         return ourInstance;
@@ -46,5 +50,21 @@ public class DataManager {
 
     public void addUser(User u) {
         users.add(u);
+    }
+
+    public int getPhoto() {
+        actual++;
+        if(actual == 4) {
+            actual = 0;
+        }
+        return fotos[actual];
+    }
+
+    public int getActual() {
+        return actual;
+    }
+
+    public int getPhoto(int i) {
+        return fotos[i];
     }
 }

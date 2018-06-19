@@ -3,6 +3,7 @@ package cat.albertaleixbernat.lasallecatalunya.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import cat.albertaleixbernat.lasallecatalunya.R;
+import cat.albertaleixbernat.lasallecatalunya.model.DataManager;
 import cat.albertaleixbernat.lasallecatalunya.model.School;
 
 public class ListAdapter extends BaseAdapter {
@@ -53,13 +55,15 @@ public class ListAdapter extends BaseAdapter {
         if (s != null) {
             TextView name = v.findViewById(R.id.nom_centre);
             TextView address = v.findViewById(R.id.adreca_centre);
-            ImageView img = v.findViewById(R.id.imatge);
             TextView inf = v.findViewById(R .id.infantil);
             TextView pri = v.findViewById(R.id.primaria);
             TextView eso = v.findViewById(R.id.eso);
             TextView bat = v.findViewById(R.id.batxillerat);
             TextView fp = v.findViewById(R.id.fp);
             TextView uni = v.findViewById(R.id.uni);
+            ImageView img = v.findViewById(R.id.img);
+            img.setImageDrawable(ContextCompat.getDrawable(context, DataManager.getInstance().getPhoto()));
+            s.setFoto(DataManager.getInstance().getActual());
 
             name.setText(s.getSchoolName());
             address.setText(s.getSchoolAddress());
