@@ -15,9 +15,10 @@
             android:theme="?attr/actionBarTheme">
 
             <Spinner
+                android:id="@+id/type_spinner_map"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/spinner_items" />
+                android:entries="@array/type_values" />
 
         </android.support.v7.widget.Toolbar>
 

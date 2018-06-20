@@ -38,7 +38,7 @@ public class CentresAdminActivity extends AppCompatActivity {
         setContentView(R.layout.activity_centres_admin);
         schools = new ArrayList<>();
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         adapter = new ListAdapter(schools, this);
         list = findViewById(R.id.list);
         list.setAdapter(adapter);

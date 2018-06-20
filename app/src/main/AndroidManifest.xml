@@ -14,23 +14,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.CentresActivity" />
-        <activity android:name=".activities.LogInActivity">
-        </activity>
-        <activity android:name=".activities.MapActivity">
-        </activity>
-        <activity android:name=".activities.RegisterActivity"/>
-        <activity android:name=".activities.CentresAdminActivity">
+        <activity android:name=".activities.CentresActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.LogInActivity" />
+        <activity android:name=".activities.MapActivity" />
+        <activity android:name=".activities.RegisterActivity"/>
+        <activity android:name=".activities.CentresAdminActivity" />
         <activity android:name=".activities.AddSchoolActivity" />
-        <activity android:name=".activities.DetailsActivity">
-
-        </activity>
+        <activity android:name=".activities.DetailsActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

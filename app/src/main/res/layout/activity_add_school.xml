@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:autofillHints="@string/provincia"
-                android:entries="@array/spinner" />
+                android:entries="@array/location_values" />
 
             <LinearLayout
                 android:layout_width="match_parent"

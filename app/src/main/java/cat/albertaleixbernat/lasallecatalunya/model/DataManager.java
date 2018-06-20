@@ -3,12 +3,14 @@ package cat.albertaleixbernat.lasallecatalunya.model;
 import android.text.Editable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cat.albertaleixbernat.lasallecatalunya.R;
 
 public class DataManager {
     private static final DataManager ourInstance = new DataManager();
     private ArrayList<User> users;
+    private List<School> schools;
     private int[] fotos = {R.drawable.f1, R.drawable.f2, R.drawable.f3, R.drawable.f4, R.drawable.f5};
     private int actual;
 
@@ -58,5 +60,13 @@ public class DataManager {
             actual = 0;
         }
         return fotos[actual];
+    }
+
+    public void setSchools(List<School> schools) {
+        this.schools = schools;
+    }
+
+    public List<School> getSchools() {
+        return schools;
     }
 }
