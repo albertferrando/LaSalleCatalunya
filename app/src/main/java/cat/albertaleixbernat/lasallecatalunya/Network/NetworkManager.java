@@ -36,7 +36,13 @@ public class NetworkManager {
         StringRequest schoolPost = new StringRequest(Request.Method.POST, baseURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                callBack.onResponse(false);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    int code = jsonObject.getInt("res");
+                    callBack.onResponse(code != 1);
+                } catch (JSONException e) {
+                    callBack.onResponse(true);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -46,7 +52,7 @@ public class NetworkManager {
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                return super.getParams();
+                return school.encode();
             }
         };
 

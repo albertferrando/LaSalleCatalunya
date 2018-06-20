@@ -67,11 +67,11 @@ public class AddSchoolActivity extends AppCompatActivity {
 
     CallBack callBack = new CallBack<Boolean>() {
         @Override
-        public void onResponse(Boolean response) {
+        public void onResponse(Boolean error) {
             if(progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }
-            if(!response) {
+            if(error) {
                 Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(getApplicationContext(), R.string.success, Toast.LENGTH_LONG).show();
