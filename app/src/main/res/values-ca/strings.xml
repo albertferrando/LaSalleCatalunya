@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">LaSalleCatalunya</string>
+    <string name="google_maps_api_key">AIzaSyAprP-uJv4hnhyd_6svpjTT3S75XEp-owo</string>
     <string name="register">Register</string>
     <string name="login">Log in</string>
     <string name="error1">Fill all the fields!</string>
@@ -26,9 +27,13 @@
     <string name="add_title">Crear un nuevo centro</string>
     <string name="spinner_title">Mostra</string>
     <string name="map">Mapa</string>
+    <string name="list">Llista</string>
     <string name="nom_centre">School name</string>
     <string name="adreca_centre">Dirección del centro</string>
     <string name="add_school">Crear nuevo centro</string>
     <string name="please_wait">Un momento por favor...</string>
     <string name="eso">ESO</string>
+    <string name="location_permission_title">Accedir a la ubicació</string>
+    <string name="location_permission_msg">Per a poder accedir a la seva ubicació, necessitem que accepti els permisos prement acceptar en el següent missatge.</string>
+    <string name="ok">Val</string>
 </resources>
