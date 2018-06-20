@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:adjustViewBounds="true"
-        android:scaleType="center" />
+        android:scaleType="fitCenter" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -50,14 +50,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title" />
+                android:textColor="@color/black"
+                android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                android:textSize="22sp"/>
 
             <TextView
                 android:id="@+id/adreca_centre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="18sp"
                 android:layout_marginTop="8dp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="16dp"
                  />
 
             <LinearLayout
@@ -72,6 +76,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="8dp"
                     android:layout_weight="1"
+                    android:textSize="17sp"
                     android:background="@color/c1"
                     android:text="@string/infantil"
                     android:textAlignment="center"
@@ -83,6 +88,8 @@
                     android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
+                    android:textSize="17sp"
+
                     android:layout_weight="1"
                     android:background="@color/c2"
                     android:text="@string/primaria"
@@ -95,6 +102,7 @@
                     android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textSize="17sp"
                     android:background="@color/red"
                     android:text="@string/eso"
                     android:textAlignment="center"
@@ -111,6 +119,7 @@
                 <TextView
                     android:id="@+id/bat"
                     android:layout_width="110dp"
+                    android:textSize="17sp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
                     android:layout_weight="1"
@@ -126,6 +135,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
                     android:layout_weight="1"
+                    android:textSize="17sp"
                     android:background="@color/c4"
                     android:text="@string/fp"
                     android:textAlignment="center"
@@ -140,6 +150,7 @@
                     android:background="@color/c5"
                     android:text="@string/universitat"
                     android:textAlignment="center"
+                    android:textSize="17sp"
                     android:textColor="@android:color/black"
                     android:visibility="gone" />
             </LinearLayout>
@@ -149,9 +160,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="4dp"
                 android:text="@string/description_hint"
                 android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
-                android:textSize="14sp" />
+                android:textSize="17sp" />
 
             <EditText
                 android:id="@+id/description"
@@ -159,6 +171,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:background="@null"
+                android:textSize="17sp"
                 android:gravity="top|left"
                 android:lines="6"
                 android:overScrollMode="always"
@@ -166,7 +179,7 @@
                 android:scrollbarStyle="insideInset"
                 android:scrollbars="vertical"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                android:textSize="14sp" />
+                />
         </LinearLayout>
 
     </ScrollView>

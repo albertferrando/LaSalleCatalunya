@@ -27,7 +27,9 @@ public class School implements Serializable {
         this.id = id;
     }
 
-    public School(String id, String schoolName, String schoolAddress, String isInfantil, String isPrimaria, String isEso, String isBatxillerat, String isFP, String isUniversitat, String description) {
+    public School(String id, String schoolName, String schoolAddress, String isInfantil,
+                  String isPrimaria, String isEso, String isBatxillerat, String isFP,
+                  String isUniversitat, String description) {
         this.id = id;
         this.isEso = isEso;
         this.schoolName = schoolName;
@@ -38,6 +40,7 @@ public class School implements Serializable {
         this.isFP = isFP;
         this.isUniversitat = isUniversitat;
         this.description = description;
+        this.foto = 0;
     }
 
     public Map<String, String> encode () {

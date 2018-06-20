@@ -17,6 +17,7 @@ import cat.albertaleixbernat.lasallecatalunya.Network.CallBack;
 import cat.albertaleixbernat.lasallecatalunya.Network.NetworkManager;
 import cat.albertaleixbernat.lasallecatalunya.R;
 import cat.albertaleixbernat.lasallecatalunya.adapters.ListAdapter;
+import cat.albertaleixbernat.lasallecatalunya.model.DataManager;
 import cat.albertaleixbernat.lasallecatalunya.model.School;
 
 public class CentresActivity extends AppCompatActivity {
@@ -47,6 +48,9 @@ public class CentresActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                 }
                 schools = response;
+                for(School s: schools) {
+                    s.setFoto(DataManager.getInstance().getPhoto());
+                }
                 adapter.updateData(response);
             }
         };

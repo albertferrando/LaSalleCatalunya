@@ -13,7 +13,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import cat.albertaleixbernat.lasallecatalunya.R;
-import cat.albertaleixbernat.lasallecatalunya.model.DataManager;
 import cat.albertaleixbernat.lasallecatalunya.model.School;
 
 public class ListAdapter extends BaseAdapter {
@@ -52,41 +51,38 @@ public class ListAdapter extends BaseAdapter {
 
         School s = getItem(position);
 
-        if (s != null) {
-            TextView name = v.findViewById(R.id.nom_centre);
-            TextView address = v.findViewById(R.id.adreca_centre);
-            TextView inf = v.findViewById(R .id.infantil);
-            TextView pri = v.findViewById(R.id.primaria);
-            TextView eso = v.findViewById(R.id.eso);
-            TextView bat = v.findViewById(R.id.batxillerat);
-            TextView fp = v.findViewById(R.id.fp);
-            TextView uni = v.findViewById(R.id.uni);
-            ImageView img = v.findViewById(R.id.img);
-            img.setImageDrawable(ContextCompat.getDrawable(context, DataManager.getInstance().getPhoto()));
-            s.setFoto(DataManager.getInstance().getActual());
+        TextView name = v.findViewById(R.id.nom_centre);
+        TextView address = v.findViewById(R.id.adreca_centre);
+        TextView inf = v.findViewById(R .id.infantil);
+        TextView pri = v.findViewById(R.id.primaria);
+        TextView eso = v.findViewById(R.id.eso);
+        TextView bat = v.findViewById(R.id.batxillerat);
+        TextView fp = v.findViewById(R.id.fp);
+        TextView uni = v.findViewById(R.id.uni);
+        ImageView img = v.findViewById(R.id.img);
+        img.setImageDrawable(ContextCompat.getDrawable(context, s.getFoto()));
 
-            name.setText(s.getSchoolName());
-            address.setText(s.getSchoolAddress());
-            img.setBackgroundColor(context.getColor(R.color.red));
+        name.setText(s.getSchoolName());
+        address.setText(s.getSchoolAddress());
+        img.setBackgroundColor(context.getColor(R.color.red));
 
-            if(s.getIsInfantil()) {
-                inf.setVisibility(View.VISIBLE);
-            }
-            if(s.getIsPrimaria()) {
-                pri.setVisibility(View.VISIBLE);
-            }
-            if(s.getIsEso()) {
-                eso.setVisibility(View.VISIBLE);
-            }
-            if(s.getIsBatxillerat()) {
-                bat.setVisibility(View.VISIBLE);
-            }
-            if(s.getIsFP()) {
-                fp.setVisibility(View.VISIBLE);
-            }
-            if(s.getIsUniversitat()) {
-                uni.setVisibility(View.VISIBLE);
-            }
+        if(s.getIsInfantil()) {
+            inf.setVisibility(View.VISIBLE);
+        }
+        if(s.getIsPrimaria()) {
+            pri.setVisibility(View.VISIBLE);
+        }
+        if(s.getIsEso()) {
+            eso.setVisibility(View.VISIBLE);
+        }
+        if(s.getIsBatxillerat()) {
+            bat.setVisibility(View.VISIBLE);
+        }
+        if(s.getIsFP()) {
+            fp.setVisibility(View.VISIBLE);
+        }
+        if(s.getIsUniversitat()) {
+            uni.setVisibility(View.VISIBLE);
         }
         return v;
     }

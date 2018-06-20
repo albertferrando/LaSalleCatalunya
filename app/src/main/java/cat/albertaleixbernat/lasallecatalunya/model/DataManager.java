@@ -10,7 +10,7 @@ public class DataManager {
     private static final DataManager ourInstance = new DataManager();
     private ArrayList<User> users;
     private int[] fotos = {R.drawable.f1, R.drawable.f2, R.drawable.f3, R.drawable.f4, R.drawable.f5};
-    private int actual = 0;
+    private int actual;
 
     public static DataManager getInstance() {
         return ourInstance;
@@ -54,17 +54,9 @@ public class DataManager {
 
     public int getPhoto() {
         actual++;
-        if(actual == 4) {
+        if(actual == 5) {
             actual = 0;
         }
         return fotos[actual];
-    }
-
-    public int getActual() {
-        return actual;
-    }
-
-    public int getPhoto(int i) {
-        return fotos[i];
     }
 }
