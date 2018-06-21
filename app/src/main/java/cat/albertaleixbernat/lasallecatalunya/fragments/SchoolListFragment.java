@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,24 +36,26 @@ public class SchoolListFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_list, container, false);
 
         list = view.findViewById(R.id.list_fragment);
-
-
+        final DataManager dataManager = DataManager.getInstance();
 
         switch (getArguments().getInt("list")) {
             case 0:
-                schools = DataManager.getInstance().getAllSchools();
+                schools = dataManager.getAllSchools();
                 break;
 
             case 1:
-                schools = DataManager.getInstance().getSchools();
+                schools = dataManager.getSchools();
                 break;
 
             case 2:
-                schools = DataManager.getInstance().getSchools();
+                schools = dataManager.getOtherSchools();
                 break;
         }
 
-        adapter = new ListAdapter(schools, getActivity());
+        adapter = new ListAdapter(dataManager.getLocationSchools(schools,
+                School.PROVINCES[((Spinner)getActivity().findViewById(R.id.location_spinner_centres))
+                        .getSelectedItemPosition()]),
+                getActivity());
         list.setAdapter(adapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -67,5 +70,11 @@ public class SchoolListFragment extends Fragment {
         return view;
     }
 
+    public void updateList(int i) {
+        if (adapter != null && schools != null){
+            DataManager dataManager = DataManager.getInstance();
+            adapter.updateData(dataManager.getLocationSchools(schools, School.PROVINCES[i]));
+        }
+    }
 
 }

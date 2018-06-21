@@ -96,4 +96,17 @@ public class DataManager {
         return list;
 
     }
+
+    public List<School> getLocationSchools(List<School> schools, String location) {
+        List<School> list = new LinkedList<>();
+
+        for (School s : schools) {
+            if (s.getProvince().compareToIgnoreCase(location) == 0) {
+                list.add(s);
+            }
+        }
+
+        return list;
+
+    }
 }

@@ -9,7 +9,7 @@ import java.util.Comparator;
 
 public class School implements Serializable {
 
-    private static final String [] PROVINCES =  {"barcelona", "tarragona", "girona","lleida"};
+    public static final String [] PROVINCES =  {"barcelona", "tarragona", "girona","lleida"};
 
     private String id;
     private String schoolName;
@@ -84,7 +84,7 @@ public class School implements Serializable {
 
     public String getProvince () {
         for (String province:PROVINCES) {
-            if (schoolAddress.contains(province)) {
+            if (schoolAddress.toLowerCase().contains(province)) {
                 return province;
             }
         }
