@@ -16,6 +16,7 @@ import java.util.List;
 import cat.albertaleixbernat.lasallecatalunya.R;
 import cat.albertaleixbernat.lasallecatalunya.activities.DetailsActivity;
 import cat.albertaleixbernat.lasallecatalunya.adapters.ListAdapter;
+import cat.albertaleixbernat.lasallecatalunya.adapters.TabAdapter;
 import cat.albertaleixbernat.lasallecatalunya.model.DataManager;
 import cat.albertaleixbernat.lasallecatalunya.model.School;
 
@@ -35,7 +36,22 @@ public class SchoolListFragment extends Fragment {
 
         list = view.findViewById(R.id.list_fragment);
 
-        schools = DataManager.getInstance().getSchools();
+
+
+        switch (getArguments().getInt("list")) {
+            case 0:
+                schools = DataManager.getInstance().getAllSchools();
+                break;
+
+            case 1:
+                schools = DataManager.getInstance().getSchools();
+                break;
+
+            case 2:
+                schools = DataManager.getInstance().getSchools();
+                break;
+        }
+
         adapter = new ListAdapter(schools, getActivity());
         list.setAdapter(adapter);
 
@@ -50,4 +66,6 @@ public class SchoolListFragment extends Fragment {
 
         return view;
     }
+
+
 }

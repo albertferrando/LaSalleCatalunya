@@ -3,6 +3,7 @@ package cat.albertaleixbernat.lasallecatalunya.model;
 import android.text.Editable;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import cat.albertaleixbernat.lasallecatalunya.R;
@@ -66,7 +67,33 @@ public class DataManager {
         this.schools = schools;
     }
 
-    public List<School> getSchools() {
+    public List<School> getAllSchools() {
         return schools;
+    }
+
+    public List<School> getSchools() {
+        List<School> list = new LinkedList<>();
+
+        for (School s :  schools) {
+            if (s.getIsInfantil() || s.getIsPrimaria() || s.getIsEso()) {
+                list.add(s);
+            }
+        }
+
+        return list;
+
+    }
+
+    public List<School> getOtherSchools() {
+        List<School> list = new LinkedList<>();
+
+        for (School s :  schools) {
+            if (!s.getIsInfantil() && !s.getIsPrimaria() && !s.getIsEso()) {
+                list.add(s);
+            }
+        }
+
+        return list;
+
     }
 }

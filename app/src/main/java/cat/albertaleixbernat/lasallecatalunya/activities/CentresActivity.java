@@ -1,5 +1,6 @@
 package cat.albertaleixbernat.lasallecatalunya.activities;
 
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
@@ -72,9 +73,21 @@ public class CentresActivity extends AppCompatActivity {
         String[] tabTitles = getResources().getStringArray(R.array.type_values);
 
         ArrayList<TabAdapter.TabEntry> entries = new ArrayList<>();
-        entries.add(new TabAdapter.TabEntry(new SchoolListFragment(), tabTitles[0]));
-        entries.add(new TabAdapter.TabEntry(new SchoolListFragment(), tabTitles[1]));
-        entries.add(new TabAdapter.TabEntry(new SchoolListFragment(), tabTitles[2]));
+        SchoolListFragment listFragment = new SchoolListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("list", 0);
+        listFragment.setArguments(bundle);
+        entries.add(new TabAdapter.TabEntry(listFragment, tabTitles[0]));
+
+        listFragment = new SchoolListFragment();
+        bundle.putInt("list", 1);
+        listFragment.setArguments(bundle);
+        entries.add(new TabAdapter.TabEntry(listFragment, tabTitles[1]));
+
+        listFragment = new SchoolListFragment();
+        bundle.putInt("list", 2);
+        listFragment.setArguments(bundle);
+        entries.add(new TabAdapter.TabEntry(listFragment, tabTitles[2]));
 
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager(), entries);
         viewPager.setAdapter(adapter);
