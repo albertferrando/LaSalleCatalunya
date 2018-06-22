@@ -2,9 +2,13 @@ package cat.albertaleixbernat.lasallecatalunya.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,18 +28,32 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.TileOverlay;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 import cat.albertaleixbernat.lasallecatalunya.R;
+import cat.albertaleixbernat.lasallecatalunya.model.DataManager;
 import cat.albertaleixbernat.lasallecatalunya.model.School;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback{
+public class MapActivity extends AppCompatActivity implements
+        OnMapReadyCallback,
+        GoogleMap.OnMarkerClickListener{
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 6337;
     private static final LatLng CATALUNYA = new LatLng(41.82046, 1.86768);
     private MapFragment mapFragment;
+    private LinkedList<Marker> schoolMarkers;
+    private LinkedList<Marker> otherMarkers;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,34 +92,62 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CATALUNYA, 7.45f));
 
-//            if (listener == null) {
-//                listener = new MapClickListener(googleMap);
-//            } else {
-//                listener.setGoogleMap(googleMap);
-//                CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
-//                googleMap.moveCamera(update);
-//            }
-//
-//            googleMap.setOnMapClickListener(listener);
-//            this.googleMap = googleMap;
+            getMarkers(googleMap);
+
+        }
+    }
+
+    private void getMarkers(GoogleMap googleMap) {
+        schoolMarkers = new LinkedList<>();
+        otherMarkers = new LinkedList<>();
+
+        for(School s : DataManager.getInstance().getAllSchools()) {
+            BitmapDescriptor icon;
+            if (s.getIsUniversitat()) {
+                icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
+
+            } else if (s.getIsFP()) {
+                icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+
+            } else if (s.getIsBatxillerat()) {
+                icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+
+            } else if (s.getIsEso()) {
+                icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
+
+            } else if (s.getIsPrimaria()) {
+                icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
+
+            } else {
+                icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA);
+
+            }
+
+            LatLng latLng = getLocationFromAddress(s.getSchoolAddress());
+
+            if (latLng != null) {
+                googleMap.addMarker(new MarkerOptions()
+                        .position(latLng)
+                        .title(s.getSchoolName())
+                        .icon(icon));
+            }
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.list_button:
-//
-//                break;
-//
-//            case R.id.map_spinner:
-//                break;
-//
-//            case R.id.login_button:
-//                Intent intent = new Intent(this, LogInActivity.class);
-//                startActivity(intent);
-//                break;
-//        }
+        switch (item.getItemId()) {
+            case R.id.list_button_map:
+                Intent intentList = new Intent(this, LogInActivity.class);
+                startActivity(intentList);
+
+                break;
+
+            case R.id.login_button_map:
+                Intent intent = new Intent(this, LogInActivity.class);
+                startActivity(intent);
+                break;
+        }
         return false;
     }
 
@@ -153,6 +199,36 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
                 break;
         }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+
+        return false;
+    }
+
+    public LatLng getLocationFromAddress(String strAddress) {
+
+        Geocoder coder = new Geocoder(this);
+        List<Address> address;
+        LatLng p1 = null;
+
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null || address.size() == 0) {
+                return null;
+            }
+
+            Address location = address.get(0);
+            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
+
+        } catch (IOException ex) {
+
+            ex.printStackTrace();
+        }
+
+        return p1;
     }
 
 }
