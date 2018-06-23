@@ -2,17 +2,20 @@ package cat.albertaleixbernat.lasallecatalunya.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,14 +24,15 @@ import java.util.List;
 import cat.albertaleixbernat.lasallecatalunya.Network.CallBack;
 import cat.albertaleixbernat.lasallecatalunya.Network.NetworkManager;
 import cat.albertaleixbernat.lasallecatalunya.R;
-import cat.albertaleixbernat.lasallecatalunya.adapters.ListAdapter;
+import cat.albertaleixbernat.lasallecatalunya.adapters.RecyclerAdapter;
+import cat.albertaleixbernat.lasallecatalunya.adapters.RecyclerTouchListener;
 import cat.albertaleixbernat.lasallecatalunya.model.DataManager;
 import cat.albertaleixbernat.lasallecatalunya.model.School;
 
 public class CentresAdminActivity extends AppCompatActivity {
-    ListView list;
+    RecyclerView list;
     List<School> schools;
-    ListAdapter adapter;
+    RecyclerAdapter adapter;
     boolean isSort = false;
     private ProgressDialog progressDialog;
 
@@ -39,17 +43,80 @@ public class CentresAdminActivity extends AppCompatActivity {
         schools = new ArrayList<>();
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        adapter = new ListAdapter(schools, this);
+        adapter = new RecyclerAdapter(schools, this);
+
+        list = findViewById(R.id.list);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        list.setLayoutManager(mLayoutManager);
         list = findViewById(R.id.list);
         list.setAdapter(adapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        list.addOnItemTouchListener(new RecyclerTouchListener(this, list, new RecyclerTouchListener.ClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onClick(View view, int position) {
                 Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
-                intent.putExtra("school", schools.get(i));
+                intent.putExtra("school", schools.get(position));
                 startActivity(intent);
             }
+
+            @Override
+            public void onLongClick(View view, int position) {}
+        }));
+
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return true;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                RecyclerAdapter.MyViewHolder myViewHolder = (RecyclerAdapter.MyViewHolder) viewHolder;
+                schools.remove(myViewHolder.i);
+                adapter.removeItem(viewHolder.getAdapterPosition());
+            }
+
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY,actionState,isCurrentlyActive);
+                if (viewHolder != null) {
+                    final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).fView;
+                    getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY, actionState, isCurrentlyActive);
+                }
+            }
+
+            @Override
+            public int convertToAbsoluteDirection(int flags, int layoutDirection) {
+                return super.convertToAbsoluteDirection(flags, layoutDirection);
+            }
+
+            @Override
+            public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).fView;
+                getDefaultUIUtil().clearView(foregroundView);
+            }
+
+            @Override
+            public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
+                if (viewHolder != null) {
+                    final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).fView;
+                    getDefaultUIUtil().onSelected(foregroundView);
+                }
+            }
+
+            @Override
+            public void onChildDrawOver(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).fView;
+                getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY, actionState,isCurrentlyActive);
+            }
         });
+
+        list.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        list.setItemAnimator(new DefaultItemAnimator());
+        itemTouchHelper.attachToRecyclerView(list);
+
         NetworkManager nm = new NetworkManager();
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.please_wait));
