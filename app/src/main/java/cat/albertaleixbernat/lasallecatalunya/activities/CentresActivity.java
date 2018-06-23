@@ -96,7 +96,7 @@ public class CentresActivity extends AppCompatActivity {
 
     private void openDialog() {
         Dialog dialog = new Dialog(this);
-        dialog.setTitle("jajj");
+        dialog.setTitle(R.string.error_center);
         dialog.show();
     }
 

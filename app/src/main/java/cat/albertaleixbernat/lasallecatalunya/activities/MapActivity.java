@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +24,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -44,6 +48,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import cat.albertaleixbernat.lasallecatalunya.Network.CallBack;
 import cat.albertaleixbernat.lasallecatalunya.R;
 import cat.albertaleixbernat.lasallecatalunya.model.DataManager;
 import cat.albertaleixbernat.lasallecatalunya.model.School;
@@ -58,6 +63,7 @@ public class MapActivity extends AppCompatActivity implements
     private MapFragment mapFragment;
     private LinkedList<MarkerOptions> schoolMarkers;
     private LinkedList<MarkerOptions> otherMarkers;
+    private School selected;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,6 +73,21 @@ public class MapActivity extends AppCompatActivity implements
         setSupportActionBar((Toolbar) findViewById(R.id.map_toolbar));
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
+
+    CallBack callBack = new CallBack<List<School>>() {
+        @Override
+        public void onResponse(List<School> response) {
+//            if (schools != null) {
+//                for (School s : schools) {
+//                    s.setFoto(DataManager.getInstance().getPhoto());
+//                }
+//                DataManager.getInstance().setSchools(schools);
+//                initializeTabs();
+//            } else {
+//                openDialog();
+//            }
+        }
+    };
 
     @Override
     protected void onStart() {
@@ -89,6 +110,8 @@ public class MapActivity extends AppCompatActivity implements
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
+
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         if (doWeHavePermissions()) {
             googleMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -96,7 +119,8 @@ public class MapActivity extends AppCompatActivity implements
 
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CATALUNYA, 7.45f));
 
-            this.googleMap = googleMap;
+            googleMap.setOnMarkerClickListener(this);
+
             setSpinner();
             getMarkers();
 
@@ -142,7 +166,8 @@ public class MapActivity extends AppCompatActivity implements
 
                 MarkerOptions aux = new MarkerOptions()
                         .position(latLng)
-                        .title(s.getSchoolName());
+                        .title(s.getSchoolName())
+                        .snippet(s.getSchoolAddress());
 
                 if (s.getIsUniversitat()) {
                     aux.icon(BitmapDescriptorFactory
@@ -181,7 +206,6 @@ public class MapActivity extends AppCompatActivity implements
                 googleMap.addMarker(aux);
 
             }
-
         }
     }
 
@@ -254,6 +278,21 @@ public class MapActivity extends AppCompatActivity implements
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        TextView centerName = findViewById(R.id.center_name_map);
+        TextView centerAddress = findViewById(R.id.center_address_map);
+        ImageView centerImage = findViewById(R.id.center_image_map);
+
+        DataManager dataManager = DataManager.getInstance();
+        selected = dataManager.getCenter(marker.getSnippet());
+
+        centerName.setText(marker.getTitle());
+        centerAddress.setText(marker.getSnippet());
+
+        centerImage.setImageDrawable(ContextCompat.getDrawable(this,
+                dataManager.getCenter(marker.getSnippet()).getFoto()));
+
+        FrameLayout informationFrame = findViewById(R.id.center_information_map);
+        informationFrame.setVisibility(View.VISIBLE);
 
         return false;
     }
@@ -265,7 +304,6 @@ public class MapActivity extends AppCompatActivity implements
         LatLng p1 = null;
 
         try {
-            // May throw an IOException
             address = coder.getFromLocationName(strAddress, 5);
             if (address == null || address.size() == 0) {
                 return null;
@@ -282,4 +320,9 @@ public class MapActivity extends AppCompatActivity implements
         return p1;
     }
 
+    public void informationClick(View view) {
+        Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
+        intent.putExtra("school", selected);
+        startActivity(intent);
+    }
 }

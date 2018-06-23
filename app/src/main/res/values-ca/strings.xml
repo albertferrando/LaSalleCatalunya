@@ -40,4 +40,6 @@
     <string name="ok">Val</string>
     <string name="error">Error al añadir la nueva escuela</string>
     <string name="success">Escuela añadida con éxito</string>
+    <string name="error_center">No s\'han trobat centres</string>
+
 </resources>

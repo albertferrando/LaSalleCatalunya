@@ -109,4 +109,12 @@ public class DataManager {
         return list;
 
     }
+
+    public School getCenter(String address) {
+        for (School s : schools) {
+            if (s.getSchoolAddress().equals(address)) return s;
+        }
+        return null;
+    }
+
 }
