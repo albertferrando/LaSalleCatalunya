@@ -20,6 +20,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -51,15 +53,17 @@ public class MapActivity extends AppCompatActivity implements
         GoogleMap.OnMarkerClickListener{
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 6337;
     private static final LatLng CATALUNYA = new LatLng(41.82046, 1.86768);
+
+    private GoogleMap googleMap;
     private MapFragment mapFragment;
-    private LinkedList<Marker> schoolMarkers;
-    private LinkedList<Marker> otherMarkers;
+    private LinkedList<MarkerOptions> schoolMarkers;
+    private LinkedList<MarkerOptions> otherMarkers;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_map);
+
         setSupportActionBar((Toolbar) findViewById(R.id.map_toolbar));
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
@@ -92,45 +96,92 @@ public class MapActivity extends AppCompatActivity implements
 
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CATALUNYA, 7.45f));
 
-            getMarkers(googleMap);
+            this.googleMap = googleMap;
+            setSpinner();
+            getMarkers();
 
         }
+
     }
 
-    private void getMarkers(GoogleMap googleMap) {
+    private void setSpinner() {
+        final Spinner spinner = findViewById(R.id.type_spinner_map);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                googleMap.clear();
+
+                if (i != 2) {
+                    for (MarkerOptions m : schoolMarkers) {
+                        googleMap.addMarker(m);
+                    }
+                }
+
+                if (i != 1) {
+                    for (MarkerOptions m : otherMarkers) {
+                        googleMap.addMarker(m);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+    }
+
+    private void getMarkers() {
         schoolMarkers = new LinkedList<>();
         otherMarkers = new LinkedList<>();
 
         for(School s : DataManager.getInstance().getAllSchools()) {
-            BitmapDescriptor icon;
-            if (s.getIsUniversitat()) {
-                icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
-
-            } else if (s.getIsFP()) {
-                icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
-
-            } else if (s.getIsBatxillerat()) {
-                icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
-
-            } else if (s.getIsEso()) {
-                icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
-
-            } else if (s.getIsPrimaria()) {
-                icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
-
-            } else {
-                icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA);
-
-            }
-
             LatLng latLng = getLocationFromAddress(s.getSchoolAddress());
 
             if (latLng != null) {
-                googleMap.addMarker(new MarkerOptions()
+
+                MarkerOptions aux = new MarkerOptions()
                         .position(latLng)
-                        .title(s.getSchoolName())
-                        .icon(icon));
+                        .title(s.getSchoolName());
+
+                if (s.getIsUniversitat()) {
+                    aux.icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+
+                } else if (s.getIsFP()) {
+                    aux.icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+
+                } else if (s.getIsBatxillerat()) {
+                    aux.icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_RED));
+
+                } else if (s.getIsEso()) {
+                    aux.icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+
+                } else if (s.getIsPrimaria()) {
+                    aux.icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+
+                } else {
+                    aux.icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+
+                }
+
+                if (s.getIsUniversitat() || s.getIsFP() || s.getIsBatxillerat()) {
+                    otherMarkers.add(aux);
+                }
+
+                if (s.getIsEso() || s.getIsPrimaria() || s.getIsInfantil()) {
+                    schoolMarkers.add(aux);
+                }
+
+                googleMap.addMarker(aux);
+
             }
+
         }
     }
 
