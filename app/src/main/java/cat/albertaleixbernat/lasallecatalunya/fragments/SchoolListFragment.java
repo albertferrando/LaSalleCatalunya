@@ -1,5 +1,6 @@
 package cat.albertaleixbernat.lasallecatalunya.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -18,6 +19,8 @@ import android.widget.Spinner;
 
 import java.util.List;
 
+import cat.albertaleixbernat.lasallecatalunya.Network.CallBack;
+import cat.albertaleixbernat.lasallecatalunya.Network.NetworkManager;
 import cat.albertaleixbernat.lasallecatalunya.R;
 import cat.albertaleixbernat.lasallecatalunya.activities.DetailsActivity;
 import cat.albertaleixbernat.lasallecatalunya.adapters.RecyclerAdapter;
@@ -38,6 +41,11 @@ public class SchoolListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.activity_list, container, false);
+
+        final ProgressDialog progress = new ProgressDialog(getContext());
+        progress.setMessage(getString(R.string.please_wait));
+
+        final NetworkManager networkManager = new NetworkManager();
 
         list = view.findViewById(R.id.list_fragment);
         final DataManager dataManager = DataManager.getInstance();
@@ -85,6 +93,19 @@ public class SchoolListFragment extends Fragment {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 RecyclerAdapter.MyViewHolder myViewHolder = (RecyclerAdapter.MyViewHolder) viewHolder;
+                progress.show();
+                networkManager.deleteSchools(new CallBack<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        if (s == null) {
+                            progress.dismiss();
+
+                        } else {
+                            progress.dismiss();
+
+                        }
+                    }
+                }, schools.get(myViewHolder.i));
                 schools.remove(myViewHolder.i);
                 adapter.removeItem(viewHolder.getAdapterPosition());
             }

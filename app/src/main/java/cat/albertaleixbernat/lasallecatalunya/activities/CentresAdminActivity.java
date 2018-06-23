@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,6 +46,10 @@ public class CentresAdminActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         adapter = new RecyclerAdapter(schools, this);
 
+        final ProgressDialog progress = new ProgressDialog(this);
+        final NetworkManager networkManager = new NetworkManager();
+        progress.setMessage(getString(R.string.please_wait));
+
         list = findViewById(R.id.list);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -73,7 +78,19 @@ public class CentresAdminActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                progress.show();
                 RecyclerAdapter.MyViewHolder myViewHolder = (RecyclerAdapter.MyViewHolder) viewHolder;
+                networkManager.deleteSchools(new CallBack<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        if (s == null) {
+
+                        } else {
+                            
+                        }
+                        progress.dismiss();
+                    }
+                }, schools.get(myViewHolder.i));
                 schools.remove(myViewHolder.i);
                 adapter.removeItem(viewHolder.getAdapterPosition());
             }
