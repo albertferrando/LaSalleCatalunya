@@ -107,6 +107,7 @@ public class SchoolListFragment extends Fragment {
                     }
                 }, schools.get(myViewHolder.i));
                 schools.remove(myViewHolder.i);
+                DataManager.getInstance().setSchools(schools);
                 adapter.removeItem(viewHolder.getAdapterPosition());
             }
 

@@ -86,12 +86,13 @@ public class CentresAdminActivity extends AppCompatActivity {
                         if (s == null) {
 
                         } else {
-                            
+
                         }
                         progress.dismiss();
                     }
                 }, schools.get(myViewHolder.i));
                 schools.remove(myViewHolder.i);
+                DataManager.getInstance().setSchools(schools);
                 adapter.removeItem(viewHolder.getAdapterPosition());
             }
 
