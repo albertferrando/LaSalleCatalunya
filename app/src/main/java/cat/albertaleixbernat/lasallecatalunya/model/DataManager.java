@@ -110,6 +110,15 @@ public class DataManager {
 
     }
 
+    public void removeSchool (School school) {
+        for (School s: schools) {
+            if (s.getId().equals(school.getId())) {
+                schools.remove(school);
+                return;
+            }
+        }
+    }
+
     public School getCenter(String address) {
         for (School s : schools) {
             if (s.getSchoolAddress().equals(address)) return s;

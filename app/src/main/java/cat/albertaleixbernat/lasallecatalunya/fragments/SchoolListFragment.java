@@ -65,15 +65,10 @@ public class SchoolListFragment extends Fragment {
         }
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
 
-//        if (savedInstanceState != null) {
-//            int position = savedInstanceState.getInt("Spinner");
-//            adapter = new RecyclerAdapter(dataManager.getLocationSchools(schools,
-//                    School.PROVINCES[position]),getActivity());
-//        } else {
-            adapter = new RecyclerAdapter(dataManager.getLocationSchools(schools,
-                    School.PROVINCES[((Spinner) getActivity().findViewById(R.id.location_spinner_centres))
-                            .getSelectedItemPosition()]), getActivity());
-//        }
+        adapter = new RecyclerAdapter(dataManager.getLocationSchools(schools,
+                School.PROVINCES[((Spinner)getActivity().findViewById(R.id.location_spinner_centres))
+                        .getSelectedItemPosition()]),getActivity());
+
         list.setAdapter(adapter);
         list.setLayoutManager(mLayoutManager);
 
@@ -114,8 +109,10 @@ public class SchoolListFragment extends Fragment {
                         }
                     }
                 }, schools.get(myViewHolder.i));
-                schools.remove(myViewHolder.i);
-                DataManager.getInstance().setSchools(schools);
+                final List<School> filteredSchools = dataManager.getLocationSchools(schools,
+                        School.PROVINCES[((Spinner)getActivity().findViewById(R.id.location_spinner_centres))
+                                .getSelectedItemPosition()]);
+                DataManager.getInstance().removeSchool(filteredSchools.get(myViewHolder.i));
                 adapter.removeItem(viewHolder.getAdapterPosition());
             }
 
@@ -160,6 +157,28 @@ public class SchoolListFragment extends Fragment {
         itemTouchHelper.attachToRecyclerView(list);
 
         return view;
+    }
+
+    public void fragmentChange (int i) {
+        DataManager dataManager = DataManager.getInstance();
+
+        switch (i) {
+            case 0:
+                schools = dataManager.getAllSchools();
+                break;
+
+            case 1:
+                schools = dataManager.getSchools();
+                break;
+
+            case 2:
+                schools = dataManager.getOtherSchools();
+                break;
+        }
+
+        adapter.updateData(dataManager.getLocationSchools(schools,
+                School.PROVINCES[((Spinner)getActivity().findViewById(R.id.location_spinner_centres))
+                        .getSelectedItemPosition()]));
     }
 
     public void updateList(int i) {
