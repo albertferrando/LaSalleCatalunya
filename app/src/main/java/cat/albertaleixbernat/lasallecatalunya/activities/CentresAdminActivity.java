@@ -178,8 +178,9 @@ public class CentresAdminActivity extends AppCompatActivity {
                 break;
 
             case R.id.logout_button:
-                Intent intent = new Intent(this, LogInActivity.class);
-                startActivity(intent);
+                onBackPressed();
+//                Intent intent = new Intent(this, LogInActivity.class);
+//                startActivity(intent);
                 break;
         }
         return false;

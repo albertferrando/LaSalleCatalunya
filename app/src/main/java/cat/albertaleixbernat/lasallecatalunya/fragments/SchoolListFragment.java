@@ -64,9 +64,16 @@ public class SchoolListFragment extends Fragment {
                 break;
         }
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        adapter = new RecyclerAdapter(dataManager.getLocationSchools(schools,
-                School.PROVINCES[((Spinner)getActivity().findViewById(R.id.location_spinner_centres))
-                        .getSelectedItemPosition()]),getActivity());
+
+//        if (savedInstanceState != null) {
+//            int position = savedInstanceState.getInt("Spinner");
+//            adapter = new RecyclerAdapter(dataManager.getLocationSchools(schools,
+//                    School.PROVINCES[position]),getActivity());
+//        } else {
+            adapter = new RecyclerAdapter(dataManager.getLocationSchools(schools,
+                    School.PROVINCES[((Spinner) getActivity().findViewById(R.id.location_spinner_centres))
+                            .getSelectedItemPosition()]), getActivity());
+//        }
         list.setAdapter(adapter);
         list.setLayoutManager(mLayoutManager);
 
@@ -162,5 +169,12 @@ public class SchoolListFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
+        int position = ((Spinner) getActivity().findViewById(R.id.location_spinner_centres))
+                .getSelectedItemPosition();
+        outState.putInt("Spinner", position);
+    }
 }

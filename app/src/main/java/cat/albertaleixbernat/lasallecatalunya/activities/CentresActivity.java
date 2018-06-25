@@ -40,6 +40,11 @@ public class CentresActivity extends AppCompatActivity {
         setContentView(R.layout.activity_centres);
 
         final Spinner spinner = findViewById(R.id.location_spinner_centres);
+        if (savedInstanceState != null) {
+            int position = savedInstanceState.getInt("Spinner");
+            spinner.setSelection(position);
+        }
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -143,5 +148,14 @@ public class CentresActivity extends AppCompatActivity {
 
         }
         return false;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        int position = ((Spinner) findViewById(R.id.location_spinner_centres))
+                .getSelectedItemPosition();
+        outState.putInt("Spinner", position);
     }
 }
