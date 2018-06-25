@@ -74,15 +74,16 @@ public class SchoolListFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 Intent intent = new Intent(getContext(), DetailsActivity.class);
-                intent.putExtra("school", schools.get(position));
+                DataManager dataManager = DataManager.getInstance();
+                Spinner spinner = getActivity().findViewById(R.id.location_spinner_centres);
+                intent.putExtra("school", dataManager.getLocationSchools(schools,
+                        School.PROVINCES[spinner.getSelectedItemPosition()]).get(position));
                 startActivity(intent);
             }
 
             @Override
             public void onLongClick(View view, int position) {}
         }));
-
-        adapter.updateData(schools);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
