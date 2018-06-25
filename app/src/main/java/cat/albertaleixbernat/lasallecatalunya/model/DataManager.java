@@ -88,7 +88,7 @@ public class DataManager {
         List<School> list = new LinkedList<>();
 
         for (School s :  schools) {
-            if (!s.getIsInfantil() && !s.getIsPrimaria() && !s.getIsEso()) {
+            if (s.getIsBatxillerat() || s.getIsFP() || s.getIsUniversitat()) {
                 list.add(s);
             }
         }

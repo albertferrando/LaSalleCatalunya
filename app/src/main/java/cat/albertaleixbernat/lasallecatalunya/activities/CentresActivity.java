@@ -4,10 +4,12 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,11 +30,12 @@ import cat.albertaleixbernat.lasallecatalunya.model.DataManager;
 import cat.albertaleixbernat.lasallecatalunya.model.School;
 
 public class CentresActivity extends AppCompatActivity {
-    List<School> schools;
+    private List<School> schools;
     private ProgressDialog progressDialog;
-    SchoolListFragment listAllFragment;
-    SchoolListFragment listSchoolFragment;
-    SchoolListFragment listOtherFragment;
+    private SchoolListFragment listAllFragment;
+    private SchoolListFragment listSchoolFragment;
+    private SchoolListFragment listOtherFragment;
+    private Bundle savedInstance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +46,20 @@ public class CentresActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             int position = savedInstanceState.getInt("Spinner");
             spinner.setSelection(position);
+            savedInstance = savedInstanceState;
         }
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (listAllFragment != null) listAllFragment.updateList(i);
-                if (listSchoolFragment != null) listSchoolFragment.updateList(i);
-                if (listOtherFragment != null) listOtherFragment.updateList(i);
+
+                for (Fragment f : getSupportFragmentManager().getFragments()) {
+                    ((SchoolListFragment)f).updateList(i);
+                }
+
+//                if (listAllFragment != null) listAllFragment.updateList(i);
+//                if (listSchoolFragment != null) listSchoolFragment.updateList(i);
+//                if (listOtherFragment != null) listOtherFragment.updateList(i);
             }
 
             @Override
@@ -130,22 +139,37 @@ public class CentresActivity extends AppCompatActivity {
 
         ArrayList<TabAdapter.TabEntry> entries = new ArrayList<>();
 
-        listAllFragment = new SchoolListFragment();
-        Bundle bundleAll = new Bundle();
-        bundleAll.putInt("list", 0);
-        listAllFragment.setArguments(bundleAll);
+        if (savedInstance == null || savedInstance.getInt("all") == 0) {
+            listAllFragment = new SchoolListFragment();
+            Bundle bundleAll = new Bundle();
+            bundleAll.putInt("list", 0);
+            listAllFragment.setArguments(bundleAll);
+        } else {
+            listAllFragment = (SchoolListFragment) getSupportFragmentManager()
+                    .findFragmentById(savedInstance.getInt("all"));
+        }
         entries.add(new TabAdapter.TabEntry(listAllFragment, tabTitles[0]));
 
-        listSchoolFragment = new SchoolListFragment();
-        Bundle bundleSc = new Bundle();
-        bundleSc.putInt("list", 1);
-        listSchoolFragment.setArguments(bundleSc);
+        if (savedInstance == null) {
+            listSchoolFragment = new SchoolListFragment();
+            Bundle bundleSc = new Bundle();
+            bundleSc.putInt("list", 1);
+            listSchoolFragment.setArguments(bundleSc);
+        } else {
+            listSchoolFragment = (SchoolListFragment) getSupportFragmentManager()
+                    .findFragmentById(savedInstance.getInt("school"));
+        }
         entries.add(new TabAdapter.TabEntry(listSchoolFragment, tabTitles[1]));
 
-        listOtherFragment = new SchoolListFragment();
-        Bundle bundleOther = new Bundle();
-        bundleOther.putInt("list", 2);
-        listOtherFragment.setArguments(bundleOther);
+        if (savedInstance == null || savedInstance.getInt("other") == 0) {
+            listOtherFragment = new SchoolListFragment();
+            Bundle bundleOther = new Bundle();
+            bundleOther.putInt("list", 2);
+            listOtherFragment.setArguments(bundleOther);
+        } else {
+            listOtherFragment = (SchoolListFragment) getSupportFragmentManager()
+                    .findFragmentById(savedInstance.getInt("other"));
+        }
         entries.add(new TabAdapter.TabEntry(listOtherFragment, tabTitles[2]));
 
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager(), entries);
@@ -183,5 +207,11 @@ public class CentresActivity extends AppCompatActivity {
         int position = ((Spinner) findViewById(R.id.location_spinner_centres))
                 .getSelectedItemPosition();
         outState.putInt("Spinner", position);
+
+        Log.d("HEY", String.valueOf(listOtherFragment.getId()));
+
+        outState.putInt("all", listAllFragment.getId());
+        outState.putInt("school", listSchoolFragment.getId());
+        outState.putInt("other", listOtherFragment.getId());
     }
 }
