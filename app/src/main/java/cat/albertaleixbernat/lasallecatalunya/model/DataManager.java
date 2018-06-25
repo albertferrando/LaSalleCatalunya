@@ -113,7 +113,8 @@ public class DataManager {
     public void removeSchool (School school) {
         for (School s: schools) {
             if (s.getId().equals(school.getId())) {
-                schools.remove(s);
+                schools.remove(school);
+                return;
             }
         }
     }

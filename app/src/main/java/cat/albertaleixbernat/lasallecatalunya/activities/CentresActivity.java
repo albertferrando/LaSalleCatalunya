@@ -95,6 +95,32 @@ public class CentresActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tabbar_center);
         ViewPager viewPager = findViewById(R.id.viewpager_center);
 
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        listAllFragment.fragmentChange(0);
+                        break;
+                    case 1:listSchoolFragment.fragmentChange(1);
+                        break;
+                    case 2:
+                        listOtherFragment.fragmentChange(2);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         String[] tabTitles = getResources().getStringArray(R.array.type_values);
 
         ArrayList<TabAdapter.TabEntry> entries = new ArrayList<>();
