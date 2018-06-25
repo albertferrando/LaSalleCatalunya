@@ -78,6 +78,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     public void onMapButtonClicked(View view) {
         Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+        intent.putExtra("school", String.valueOf(adreca.getText()));
         startActivity(intent);
     }
 }

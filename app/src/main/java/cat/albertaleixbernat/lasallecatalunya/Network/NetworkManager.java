@@ -1,5 +1,9 @@
 package cat.albertaleixbernat.lasallecatalunya.Network;
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -7,6 +11,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -14,10 +21,15 @@ import com.google.gson.JsonParser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.security.auth.callback.Callback;
+
 import cat.albertaleixbernat.lasallecatalunya.Utils.JSONDecoder;
+import cat.albertaleixbernat.lasallecatalunya.model.DataManager;
 import cat.albertaleixbernat.lasallecatalunya.model.School;
 
 public class NetworkManager {
@@ -107,6 +119,79 @@ public class NetworkManager {
             stringBuilder.append(parameter);
         }
         return stringBuilder.toString();
+    }
+
+    public void getMarkers (Context context, List<MarkerOptions> schoolMarkers,
+                            List<MarkerOptions> otherMarkers) {
+
+        for(School s : DataManager.getInstance().getAllSchools()) {
+            LatLng latLng = getLocationFromAddress(s.getSchoolAddress(), context);
+
+            if (latLng != null) {
+
+                MarkerOptions aux = new MarkerOptions()
+                        .position(latLng)
+                        .title(s.getSchoolName())
+                        .snippet(s.getSchoolAddress());
+
+                if (s.getIsUniversitat()) {
+                    aux.icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+
+                } else if (s.getIsFP()) {
+                    aux.icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+
+                } else if (s.getIsBatxillerat()) {
+                    aux.icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_RED));
+
+                } else if (s.getIsEso()) {
+                    aux.icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+
+                } else if (s.getIsPrimaria()) {
+                    aux.icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+
+                } else {
+                    aux.icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+
+                }
+
+                if (s.getIsUniversitat() || s.getIsFP() || s.getIsBatxillerat()) {
+                    otherMarkers.add(aux);
+                }
+
+                if (s.getIsEso() || s.getIsPrimaria() || s.getIsInfantil()) {
+                    schoolMarkers.add(aux);
+                }
+            }
+        }
+    }
+
+    public LatLng getLocationFromAddress(String strAddress, Context context) {
+
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng p1 = null;
+
+        try {
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null || address.size() == 0) {
+                return null;
+            }
+
+            Address location = address.get(0);
+            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
+
+        } catch (IOException ex) {
+
+            ex.printStackTrace();
+        }
+
+        return p1;
     }
 
 }

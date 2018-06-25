@@ -38,7 +38,6 @@ import cat.albertaleixbernat.lasallecatalunya.model.School;
 public class CentresActivity extends AppCompatActivity {
     List<School> schools;
     private ProgressDialog progressDialog;
-    TabAdapter adapter;
     SchoolListFragment listAllFragment;
     SchoolListFragment listSchoolFragment;
     SchoolListFragment listOtherFragment;

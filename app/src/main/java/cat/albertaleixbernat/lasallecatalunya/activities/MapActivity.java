@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -36,6 +38,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -49,6 +52,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import cat.albertaleixbernat.lasallecatalunya.Network.CallBack;
+import cat.albertaleixbernat.lasallecatalunya.Network.NetworkManager;
 import cat.albertaleixbernat.lasallecatalunya.R;
 import cat.albertaleixbernat.lasallecatalunya.model.DataManager;
 import cat.albertaleixbernat.lasallecatalunya.model.School;
@@ -61,8 +65,8 @@ public class MapActivity extends AppCompatActivity implements
 
     private GoogleMap googleMap;
     private MapFragment mapFragment;
-    private LinkedList<MarkerOptions> schoolMarkers;
-    private LinkedList<MarkerOptions> otherMarkers;
+    private List<MarkerOptions> schoolMarkers;
+    private List<MarkerOptions> otherMarkers;
     private School selected;
 
     @Override
@@ -73,21 +77,6 @@ public class MapActivity extends AppCompatActivity implements
         setSupportActionBar((Toolbar) findViewById(R.id.map_toolbar));
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
-
-    CallBack callBack = new CallBack<List<School>>() {
-        @Override
-        public void onResponse(List<School> response) {
-//            if (schools != null) {
-//                for (School s : schools) {
-//                    s.setFoto(DataManager.getInstance().getPhoto());
-//                }
-//                DataManager.getInstance().setSchools(schools);
-//                initializeTabs();
-//            } else {
-//                openDialog();
-//            }
-        }
-    };
 
     @Override
     protected void onStart() {
@@ -117,12 +106,27 @@ public class MapActivity extends AppCompatActivity implements
             googleMap.getUiSettings().setMyLocationButtonEnabled(true);
             googleMap.setMyLocationEnabled(true);
 
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CATALUNYA, 7.45f));
+            String address = getIntent().getStringExtra("school");
+            NetworkManager nm = new NetworkManager();
+
+            LatLng position = null;
+            if (address != null) {
+                position = nm.getLocationFromAddress(address, this);
+            }
+
+            if (position != null) {
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 12));
+            } else {
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CATALUNYA, 7.4f));
+            }
 
             googleMap.setOnMarkerClickListener(this);
 
+            schoolMarkers = new LinkedList<>();
+            otherMarkers = new LinkedList<>();
             setSpinner();
-            getMarkers();
+
+            new AsyncRequest(this).execute();
 
         }
 
@@ -153,60 +157,6 @@ public class MapActivity extends AppCompatActivity implements
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-    }
-
-    private void getMarkers() {
-        schoolMarkers = new LinkedList<>();
-        otherMarkers = new LinkedList<>();
-
-        for(School s : DataManager.getInstance().getAllSchools()) {
-            LatLng latLng = getLocationFromAddress(s.getSchoolAddress());
-
-            if (latLng != null) {
-
-                MarkerOptions aux = new MarkerOptions()
-                        .position(latLng)
-                        .title(s.getSchoolName())
-                        .snippet(s.getSchoolAddress());
-
-                if (s.getIsUniversitat()) {
-                    aux.icon(BitmapDescriptorFactory
-                            .defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-
-                } else if (s.getIsFP()) {
-                    aux.icon(BitmapDescriptorFactory
-                            .defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-
-                } else if (s.getIsBatxillerat()) {
-                    aux.icon(BitmapDescriptorFactory
-                            .defaultMarker(BitmapDescriptorFactory.HUE_RED));
-
-                } else if (s.getIsEso()) {
-                    aux.icon(BitmapDescriptorFactory
-                            .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-
-                } else if (s.getIsPrimaria()) {
-                    aux.icon(BitmapDescriptorFactory
-                            .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
-
-                } else {
-                    aux.icon(BitmapDescriptorFactory
-                            .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-
-                }
-
-                if (s.getIsUniversitat() || s.getIsFP() || s.getIsBatxillerat()) {
-                    otherMarkers.add(aux);
-                }
-
-                if (s.getIsEso() || s.getIsPrimaria() || s.getIsInfantil()) {
-                    schoolMarkers.add(aux);
-                }
-
-                googleMap.addMarker(aux);
-
-            }
-        }
     }
 
     @Override
@@ -297,32 +247,52 @@ public class MapActivity extends AppCompatActivity implements
         return false;
     }
 
-    public LatLng getLocationFromAddress(String strAddress) {
-
-        Geocoder coder = new Geocoder(this);
-        List<Address> address;
-        LatLng p1 = null;
-
-        try {
-            address = coder.getFromLocationName(strAddress, 5);
-            if (address == null || address.size() == 0) {
-                return null;
-            }
-
-            Address location = address.get(0);
-            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
-
-        } catch (IOException ex) {
-
-            ex.printStackTrace();
-        }
-
-        return p1;
-    }
-
     public void informationClick(View view) {
         Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
         intent.putExtra("school", selected);
         startActivity(intent);
+    }
+
+    private class AsyncRequest extends AsyncTask<GoogleMap, Void, Void> {
+
+        private Context context;
+        private ProgressDialog progressDialog;
+
+        protected AsyncRequest(Context context) {
+            this.context = context;
+            progressDialog = new ProgressDialog(context);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.setMessage(getString(R.string.please_wait));
+            progressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(GoogleMap... params) {
+            (new NetworkManager()).getMarkers(context, schoolMarkers, otherMarkers);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+
+            for (MarkerOptions m : schoolMarkers) {
+                googleMap.addMarker(m);
+            }
+
+            for (MarkerOptions m : otherMarkers) {
+                googleMap.addMarker(m);
+            }
+            
+        }
+
     }
 }
