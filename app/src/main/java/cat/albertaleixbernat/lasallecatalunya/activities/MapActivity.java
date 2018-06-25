@@ -291,7 +291,7 @@ public class MapActivity extends AppCompatActivity implements
             for (MarkerOptions m : otherMarkers) {
                 googleMap.addMarker(m);
             }
-            
+
         }
 
     }

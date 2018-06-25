@@ -10,4 +10,6 @@
     <color name="c3">#305af2</color>
     <color name="c4">#38d83d</color>
     <color name="c5">#9e45e8</color>
+    <color name="white">#ffffff</color>
+    <color name="redP">#f75467</color>
 </resources>

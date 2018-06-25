@@ -41,5 +41,6 @@
     <string name="error">Error al añadir la nueva escuela</string>
     <string name="success">Escuela añadida con éxito</string>
     <string name="error_center">No s\'han trobat centres</string>
-
+    <string name="deleteError">Error a l\'eliminar l'escola</string>
+    <string name="errorTitle">Error</string>
 </resources>
