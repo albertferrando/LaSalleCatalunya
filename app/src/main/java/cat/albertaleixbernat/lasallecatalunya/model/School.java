@@ -21,6 +21,7 @@ public class School implements Serializable {
     private String isUniversitat;
     private String isEso;
     private String description;
+    private String province;
     private int foto;
 
     public School(String id) {
@@ -29,7 +30,7 @@ public class School implements Serializable {
 
     public School(String id, String schoolName, String schoolAddress, String isInfantil,
                   String isPrimaria, String isEso, String isBatxillerat, String isFP,
-                  String isUniversitat, String description) {
+                  String isUniversitat, String description, String province) {
         this.id = id;
         this.isEso = isEso;
         this.schoolName = schoolName;
@@ -40,6 +41,7 @@ public class School implements Serializable {
         this.isFP = isFP;
         this.isUniversitat = isUniversitat;
         this.description = description;
+        this.province = province;
         this.foto = 0;
     }
 
@@ -83,6 +85,9 @@ public class School implements Serializable {
     }
 
     public String getProvince () {
+        if (province != null) {
+            return province;
+        }
         for (String province:PROVINCES) {
             if (schoolAddress.toLowerCase().contains(province)) {
                 return province;

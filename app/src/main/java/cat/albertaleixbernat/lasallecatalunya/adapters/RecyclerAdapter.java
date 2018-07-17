@@ -28,9 +28,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
         public TextView name, address, inf, pri, eso, bat, fp, uni;
         public ImageView img;
-        public int i;
         public RelativeLayout bView;
         public LinearLayout fView;
+        public School school;
 
         public MyViewHolder(View v) {
             super(v);
@@ -72,7 +72,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         h.address.setText(s.getSchoolAddress());
         h.img.setBackgroundColor(context.getColor(R.color.red));
         h.img.setImageDrawable(ContextCompat.getDrawable(context, s.getFoto()));
-        h.i = position;
+        h.school = list.get(position);
 
         if(s.getIsInfantil()) {
             h.inf.setVisibility(View.VISIBLE);

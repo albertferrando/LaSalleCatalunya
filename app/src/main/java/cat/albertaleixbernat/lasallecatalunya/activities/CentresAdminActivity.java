@@ -90,7 +90,7 @@ public class CentresAdminActivity extends AppCompatActivity {
                         }
                         progress.dismiss();
                     }
-                }, schools.get(myViewHolder.i));
+                }, myViewHolder.school);
 
             }
 
