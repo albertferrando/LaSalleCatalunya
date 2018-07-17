@@ -87,74 +87,9 @@ public class SchoolListFragment extends Fragment {
             public void onLongClick(View view, int position) {}
         }));
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return true;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                RecyclerAdapter.MyViewHolder myViewHolder = (RecyclerAdapter.MyViewHolder) viewHolder;
-                progress.show();
-                networkManager.deleteSchools(new CallBack<String>() {
-                    @Override
-                    public void onResponse(String s) {
-                        if (s == null) {
-                            progress.dismiss();
-
-                        } else {
-                            progress.dismiss();
-
-                        }
-                    }
-                }, schools.get(myViewHolder.i));
-                final List<School> filteredSchools = dataManager.getLocationSchools(schools,
-                        School.PROVINCES[((Spinner)getActivity().findViewById(R.id.location_spinner_centres))
-                                .getSelectedItemPosition()]);
-                DataManager.getInstance().removeSchool(filteredSchools.get(myViewHolder.i));
-                adapter.removeItem(viewHolder.getAdapterPosition());
-            }
-
-            @Override
-            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY,actionState,isCurrentlyActive);
-                if (viewHolder != null) {
-                    final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).fView;
-                    getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY, actionState, isCurrentlyActive);
-                }
-            }
-
-            @Override
-            public int convertToAbsoluteDirection(int flags, int layoutDirection) {
-                return super.convertToAbsoluteDirection(flags, layoutDirection);
-            }
-
-            @Override
-            public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-                final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).fView;
-                getDefaultUIUtil().clearView(foregroundView);
-            }
-
-            @Override
-            public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
-                if (viewHolder != null) {
-                    final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).fView;
-                    getDefaultUIUtil().onSelected(foregroundView);
-                }
-            }
-
-            @Override
-            public void onChildDrawOver(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).fView;
-                getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY, actionState,isCurrentlyActive);
-            }
-        });
-
         list.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         list.setItemAnimator(new DefaultItemAnimator());
 
-        itemTouchHelper.attachToRecyclerView(list);
 
         return view;
     }
