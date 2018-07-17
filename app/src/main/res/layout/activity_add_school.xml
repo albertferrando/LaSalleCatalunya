@@ -61,7 +61,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:autofillHints="@string/provincia"
-                android:entries="@array/location_values" />
+                android:contentDescription="@string/provincia"
+                android:defaultFocusHighlightEnabled="false"
+                android:entries="@array/location_values"
+                android:prompt="@string/provincia"
+                android:tooltipText="@string/provincia" />
 
             <LinearLayout
                 android:layout_width="match_parent"

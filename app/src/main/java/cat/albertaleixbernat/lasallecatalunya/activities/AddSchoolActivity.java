@@ -61,8 +61,7 @@ public class AddSchoolActivity extends AppCompatActivity {
                 uni.isChecked() ? "1" : "0", descripcio.getText().toString());
         s.setFoto(DataManager.getInstance().getPhoto());
         networkManager.addSchool(s, callBack);
-        Intent intent = new Intent(this, CentresAdminActivity.class);
-        startActivity(intent);
+        onBackPressed();
     }
 
     CallBack callBack = new CallBack<Boolean>() {

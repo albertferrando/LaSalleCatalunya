@@ -31,10 +31,11 @@ import cat.albertaleixbernat.lasallecatalunya.model.DataManager;
 import cat.albertaleixbernat.lasallecatalunya.model.School;
 
 public class CentresAdminActivity extends AppCompatActivity {
-    RecyclerView list;
-    List<School> schools;
-    RecyclerAdapter adapter;
-    boolean isSort = false;
+    private RecyclerView list;
+    private List<School> schools;
+    private RecyclerAdapter adapter;
+    private NetworkManager nm;
+    private boolean isSort = false;
     private ProgressDialog progressDialog;
 
     @Override
@@ -135,7 +136,7 @@ public class CentresAdminActivity extends AppCompatActivity {
         list.setItemAnimator(new DefaultItemAnimator());
         itemTouchHelper.attachToRecyclerView(list);
 
-        NetworkManager nm = new NetworkManager();
+        nm = new NetworkManager();
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.please_wait));
         progressDialog.show();
@@ -149,6 +150,7 @@ public class CentresAdminActivity extends AppCompatActivity {
                 progressDialog.dismiss();
             }
             schools = response;
+            DataManager.getInstance().setSchools(schools);
             for(School s: schools) {
                 s.setFoto(DataManager.getInstance().getPhoto());
             }
@@ -179,8 +181,8 @@ public class CentresAdminActivity extends AppCompatActivity {
 
             case R.id.logout_button:
                 onBackPressed();
-//                Intent intent = new Intent(this, LogInActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(this, LogInActivity.class);
+                startActivity(intent);
                 break;
         }
         return false;
@@ -189,5 +191,12 @@ public class CentresAdminActivity extends AppCompatActivity {
     public void onAddSchoolClick(View view) {
         Intent intent = new Intent(this, AddSchoolActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        nm = new NetworkManager();
+        nm.getSchools(callBack);
     }
 }

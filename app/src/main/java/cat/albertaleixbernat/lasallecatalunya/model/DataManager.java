@@ -1,7 +1,5 @@
 package cat.albertaleixbernat.lasallecatalunya.model;
 
-import android.text.Editable;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -73,41 +71,32 @@ public class DataManager {
 
     public List<School> getSchools() {
         List<School> list = new LinkedList<>();
-
         for (School s :  schools) {
             if (s.getIsInfantil() || s.getIsPrimaria() || s.getIsEso()) {
                 list.add(s);
             }
         }
-
         return list;
-
     }
 
     public List<School> getOtherSchools() {
         List<School> list = new LinkedList<>();
-
         for (School s :  schools) {
             if (s.getIsBatxillerat() || s.getIsFP() || s.getIsUniversitat()) {
                 list.add(s);
             }
         }
-
         return list;
-
     }
 
     public List<School> getLocationSchools(List<School> schools, String location) {
         List<School> list = new LinkedList<>();
-
         for (School s : schools) {
             if (s.getProvince().compareToIgnoreCase(location) == 0) {
                 list.add(s);
             }
         }
-
         return list;
-
     }
 
     public void removeSchool (School school) {

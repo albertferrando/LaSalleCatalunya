@@ -36,6 +36,7 @@ public class CentresActivity extends AppCompatActivity {
     private SchoolListFragment listSchoolFragment;
     private SchoolListFragment listOtherFragment;
     private Bundle savedInstance;
+    private NetworkManager nm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +74,17 @@ public class CentresActivity extends AppCompatActivity {
         setSupportActionBar((Toolbar) findViewById(R.id.center_toolbar));
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        NetworkManager nm = new NetworkManager();
+        nm = new NetworkManager();
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.please_wait));
         progressDialog.show();
+        nm.getSchools(callBack);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        nm = new NetworkManager();
         nm.getSchools(callBack);
     }
 

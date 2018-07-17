@@ -25,7 +25,8 @@
         android:onClick="onMapButtonClicked"
         app:layout_anchor="@+id/img"
         app:layout_anchorGravity="bottom|right|end"
-        app:srcCompat="@android:drawable/btn_default" />
+        app:backgroundTint="@color/red"
+        app:srcCompat="@android:drawable/ic_dialog_map" />
 
     <ScrollView
         android:id="@+id/scrollView2"
