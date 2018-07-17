@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,6 +62,9 @@ public class AddSchoolActivity extends AppCompatActivity {
                 eso.isChecked() ? "1" : "0", bat.isChecked() ? "1" : "0", fp.isChecked() ? "1" : "0",
                 uni.isChecked() ? "1" : "0", descripcio.getText().toString());
         s.setFoto(DataManager.getInstance().getPhoto());
+        List<School> schools = DataManager.getInstance().getAllSchools();
+        schools.add(s);
+        DataManager.getInstance().setSchools(schools);
         networkManager.addSchool(s, callBack);
         onBackPressed();
     }

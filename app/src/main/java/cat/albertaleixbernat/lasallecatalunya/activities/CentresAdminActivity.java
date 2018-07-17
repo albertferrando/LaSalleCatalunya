@@ -42,7 +42,7 @@ public class CentresAdminActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_centres_admin);
-        schools = new ArrayList<>();
+        schools = DataManager.getInstance().getSchools();
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         adapter = new RecyclerAdapter(schools, this);
@@ -78,23 +78,20 @@ public class CentresAdminActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 progress.show();
-                RecyclerAdapter.MyViewHolder myViewHolder = (RecyclerAdapter.MyViewHolder) viewHolder;
+                final RecyclerAdapter.MyViewHolder myViewHolder = (RecyclerAdapter.MyViewHolder) viewHolder;
                 networkManager.deleteSchools(new CallBack<String>() {
                     @Override
                     public void onResponse(String s) {
                         if (s == null) {
-
-                        } else {
-
+                            adapter.removeItem(viewHolder.getAdapterPosition());
+                            DataManager.getInstance().setSchools(schools);
                         }
                         progress.dismiss();
                     }
                 }, schools.get(myViewHolder.i));
-                schools.remove(myViewHolder.i);
-                DataManager.getInstance().setSchools(schools);
-                adapter.removeItem(viewHolder.getAdapterPosition());
+
             }
 
             @Override
@@ -141,6 +138,12 @@ public class CentresAdminActivity extends AppCompatActivity {
         progressDialog.setMessage(getString(R.string.please_wait));
         progressDialog.show();
         nm.getSchools(callBack);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.updateData(DataManager.getInstance().getAllSchools());
     }
 
     CallBack callBack = new CallBack<List<School>>() {
