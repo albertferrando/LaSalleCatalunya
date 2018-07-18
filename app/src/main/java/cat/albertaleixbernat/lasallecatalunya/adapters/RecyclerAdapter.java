@@ -26,11 +26,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView name, address, inf, pri, eso, bat, fp, uni;
-        public ImageView img;
-        public RelativeLayout bView;
-        public LinearLayout fView;
-        public School school;
+        private TextView name, address, inf, pri, eso, bat, fp, uni;
+        private ImageView img;
+        private RelativeLayout bView;
+        private LinearLayout fView;
+        private School school;
 
         public MyViewHolder(View v) {
             super(v);
@@ -45,6 +45,102 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             img = v.findViewById(R.id.img);
             fView = v.findViewById(R.id.fView);
             bView = v.findViewById(R.id.bView);
+        }
+
+        public TextView getName() {
+            return name;
+        }
+
+        public void setName(TextView name) {
+            this.name = name;
+        }
+
+        public TextView getAddress() {
+            return address;
+        }
+
+        public void setAddress(TextView address) {
+            this.address = address;
+        }
+
+        public TextView getInf() {
+            return inf;
+        }
+
+        public void setInf(TextView inf) {
+            this.inf = inf;
+        }
+
+        public TextView getPri() {
+            return pri;
+        }
+
+        public void setPri(TextView pri) {
+            this.pri = pri;
+        }
+
+        public TextView getEso() {
+            return eso;
+        }
+
+        public void setEso(TextView eso) {
+            this.eso = eso;
+        }
+
+        public TextView getBat() {
+            return bat;
+        }
+
+        public void setBat(TextView bat) {
+            this.bat = bat;
+        }
+
+        public TextView getFp() {
+            return fp;
+        }
+
+        public void setFp(TextView fp) {
+            this.fp = fp;
+        }
+
+        public TextView getUni() {
+            return uni;
+        }
+
+        public void setUni(TextView uni) {
+            this.uni = uni;
+        }
+
+        public ImageView getImg() {
+            return img;
+        }
+
+        public void setImg(ImageView img) {
+            this.img = img;
+        }
+
+        public RelativeLayout getbView() {
+            return bView;
+        }
+
+        public void setbView(RelativeLayout bView) {
+            this.bView = bView;
+        }
+
+        public LinearLayout getfView() {
+            return fView;
+        }
+
+        public void setfView(LinearLayout fView) {
+            this.fView = fView;
+        }
+
+        public School getSchool() {
+            return school;
+        }
+
+        public void setSchool(School school) {
+            this.school = school;
         }
     }
 
@@ -68,29 +164,29 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
         School s = list.get(position);
 
-        h.name.setText(s.getSchoolName());
-        h.address.setText(s.getSchoolAddress());
-        h.img.setBackgroundColor(context.getColor(R.color.red));
-        h.img.setImageDrawable(ContextCompat.getDrawable(context, s.getFoto()));
-        h.school = list.get(position);
+        h.getName().setText(s.getSchoolName());
+        h.getAddress().setText(s.getSchoolAddress());
+        h.getImg().setBackgroundColor(context.getColor(R.color.red));
+        h.getImg().setImageDrawable(ContextCompat.getDrawable(context, s.getFoto()));
+        h.setSchool(list.get(position));
 
         if(s.getIsInfantil()) {
-            h.inf.setVisibility(View.VISIBLE);
+            h.getInf().setVisibility(View.VISIBLE);
         }
         if(s.getIsPrimaria()) {
-            h.pri.setVisibility(View.VISIBLE);
+            h.getPri().setVisibility(View.VISIBLE);
         }
         if(s.getIsEso()) {
-            h.eso.setVisibility(View.VISIBLE);
+            h.getEso().setVisibility(View.VISIBLE);
         }
         if(s.getIsBatxillerat()) {
-            h.bat.setVisibility(View.VISIBLE);
+            h.getBat().setVisibility(View.VISIBLE);
         }
         if(s.getIsFP()) {
-            h.fp.setVisibility(View.VISIBLE);
+            h.getFp().setVisibility(View.VISIBLE);
         }
         if(s.getIsUniversitat()) {
-            h.uni.setVisibility(View.VISIBLE);
+            h.getUni().setVisibility(View.VISIBLE);
         }
     }
 

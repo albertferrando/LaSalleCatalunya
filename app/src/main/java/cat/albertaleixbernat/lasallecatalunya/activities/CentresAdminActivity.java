@@ -90,7 +90,7 @@ public class CentresAdminActivity extends AppCompatActivity {
                         }
                         progress.dismiss();
                     }
-                }, myViewHolder.school);
+                }, myViewHolder.getSchool());
 
             }
 
@@ -98,7 +98,7 @@ public class CentresAdminActivity extends AppCompatActivity {
             public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY,actionState,isCurrentlyActive);
                 if (viewHolder != null) {
-                    final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).fView;
+                    final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).getfView();
                     getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY, actionState, isCurrentlyActive);
                 }
             }
@@ -110,21 +110,21 @@ public class CentresAdminActivity extends AppCompatActivity {
 
             @Override
             public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-                final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).fView;
+                final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).getfView();
                 getDefaultUIUtil().clearView(foregroundView);
             }
 
             @Override
             public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
                 if (viewHolder != null) {
-                    final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).fView;
+                    final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).getfView();
                     getDefaultUIUtil().onSelected(foregroundView);
                 }
             }
 
             @Override
             public void onChildDrawOver(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).fView;
+                final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).getfView();
                 getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY, actionState,isCurrentlyActive);
             }
         });
