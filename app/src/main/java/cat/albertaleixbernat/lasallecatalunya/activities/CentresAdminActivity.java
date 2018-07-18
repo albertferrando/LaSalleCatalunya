@@ -143,7 +143,7 @@ public class CentresAdminActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        adapter.updateData(DataManager.getInstance().getAllSchools());
+        //adapter.updateData(DataManager.getInstance().getAllSchools());
     }
 
     CallBack callBack = new CallBack<List<School>>() {

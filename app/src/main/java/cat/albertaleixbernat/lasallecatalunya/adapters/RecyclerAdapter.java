@@ -163,12 +163,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     public void onBindViewHolder(MyViewHolder h, int position) {
 
         School s = list.get(position);
-
+        h.setIsRecyclable(false);
         h.getName().setText(s.getSchoolName());
         h.getAddress().setText(s.getSchoolAddress());
         h.getImg().setBackgroundColor(context.getColor(R.color.red));
         h.getImg().setImageDrawable(ContextCompat.getDrawable(context, s.getFoto()));
-        h.setSchool(list.get(position));
+        h.setSchool(s);
 
         if(s.getIsInfantil()) {
             h.getInf().setVisibility(View.VISIBLE);
