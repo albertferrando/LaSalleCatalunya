@@ -10,9 +10,12 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,6 +51,7 @@ public class AddSchoolActivity extends AppCompatActivity {
         TextView nom = findViewById(R.id.nom_centre);
         TextView adreca = findViewById(R.id.adreca_centre);
         EditText descripcio = findViewById(R.id.descripcio);
+        Spinner province = findViewById(R.id.spinner);
         CheckBox inf = findViewById(R.id.infantil);
         CheckBox pri = findViewById(R.id.primaria);
         CheckBox eso = findViewById(R.id.eso);
@@ -58,11 +62,15 @@ public class AddSchoolActivity extends AppCompatActivity {
         School s = new School(UUID.randomUUID().toString(), nom.getText().toString(),
                 adreca.getText().toString(), inf.isChecked() ? "1" : "0", pri.isChecked() ? "1" : "0",
                 eso.isChecked() ? "1" : "0", bat.isChecked() ? "1" : "0", fp.isChecked() ? "1" : "0",
-                uni.isChecked() ? "1" : "0", descripcio.getText().toString());
+                uni.isChecked() ? "1" : "0", descripcio.getText().toString(), (String) province.getSelectedItem());
         s.setFoto(DataManager.getInstance().getPhoto());
+        List<School> schools = DataManager.getInstance().getAllSchools();
+        schools.add(s);
+        DataManager.getInstance().setSchools(schools);
         networkManager.addSchool(s, callBack);
         Intent intent = new Intent(this, CentresAdminActivity.class);
         startActivity(intent);
+        finish();
     }
 
     CallBack callBack = new CallBack<Boolean>() {

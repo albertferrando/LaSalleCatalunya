@@ -44,7 +44,6 @@ public class NetworkManager {
     }
 
     public void addSchool (final School school, final CallBack<Boolean> callBack) {
-
         StringRequest schoolPost = new StringRequest(Request.Method.POST, baseURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

@@ -23,7 +23,7 @@
     <string name="fp">FP</string>
     <string name="universitat">Universidad</string>
     <string name="sort_name">Ordenar por nombre</string>
-    <string name="logout">Cerrar sessión</string>
+    <string name="logout">Cerrar sesión</string>
     <string name="add_title">Crear un nuevo centro</string>
     <string name="spinner_title">Muestra</string>
     <string name="map">Mapa</string>

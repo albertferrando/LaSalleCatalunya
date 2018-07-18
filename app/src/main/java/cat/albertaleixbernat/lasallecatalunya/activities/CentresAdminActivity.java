@@ -31,17 +31,18 @@ import cat.albertaleixbernat.lasallecatalunya.model.DataManager;
 import cat.albertaleixbernat.lasallecatalunya.model.School;
 
 public class CentresAdminActivity extends AppCompatActivity {
-    RecyclerView list;
-    List<School> schools;
-    RecyclerAdapter adapter;
-    boolean isSort = false;
+    private RecyclerView list;
+    private List<School> schools;
+    private RecyclerAdapter adapter;
+    private NetworkManager nm;
+    private boolean isSort = false;
     private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_centres_admin);
-        schools = new ArrayList<>();
+        schools = DataManager.getInstance().getSchools();
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         adapter = new RecyclerAdapter(schools, this);
@@ -77,30 +78,27 @@ public class CentresAdminActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 progress.show();
-                RecyclerAdapter.MyViewHolder myViewHolder = (RecyclerAdapter.MyViewHolder) viewHolder;
+                final RecyclerAdapter.MyViewHolder myViewHolder = (RecyclerAdapter.MyViewHolder) viewHolder;
                 networkManager.deleteSchools(new CallBack<String>() {
                     @Override
                     public void onResponse(String s) {
                         if (s == null) {
-
-                        } else {
-
+                            adapter.removeItem(viewHolder.getAdapterPosition());
+                            DataManager.getInstance().setSchools(schools);
                         }
                         progress.dismiss();
                     }
-                }, schools.get(myViewHolder.i));
-                schools.remove(myViewHolder.i);
-                DataManager.getInstance().setSchools(schools);
-                adapter.removeItem(viewHolder.getAdapterPosition());
+                }, myViewHolder.getSchool());
+
             }
 
             @Override
             public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY,actionState,isCurrentlyActive);
                 if (viewHolder != null) {
-                    final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).fView;
+                    final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).getfView();
                     getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY, actionState, isCurrentlyActive);
                 }
             }
@@ -112,21 +110,21 @@ public class CentresAdminActivity extends AppCompatActivity {
 
             @Override
             public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-                final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).fView;
+                final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).getfView();
                 getDefaultUIUtil().clearView(foregroundView);
             }
 
             @Override
             public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
                 if (viewHolder != null) {
-                    final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).fView;
+                    final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).getfView();
                     getDefaultUIUtil().onSelected(foregroundView);
                 }
             }
 
             @Override
             public void onChildDrawOver(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).fView;
+                final View foregroundView = ((RecyclerAdapter.MyViewHolder) viewHolder).getfView();
                 getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY, actionState,isCurrentlyActive);
             }
         });
@@ -135,11 +133,17 @@ public class CentresAdminActivity extends AppCompatActivity {
         list.setItemAnimator(new DefaultItemAnimator());
         itemTouchHelper.attachToRecyclerView(list);
 
-        NetworkManager nm = new NetworkManager();
+        nm = new NetworkManager();
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.please_wait));
         progressDialog.show();
         nm.getSchools(callBack);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.updateData(DataManager.getInstance().getAllSchools());
     }
 
     CallBack callBack = new CallBack<List<School>>() {
@@ -149,6 +153,7 @@ public class CentresAdminActivity extends AppCompatActivity {
                 progressDialog.dismiss();
             }
             schools = response;
+            DataManager.getInstance().setSchools(schools);
             for(School s: schools) {
                 s.setFoto(DataManager.getInstance().getPhoto());
             }
@@ -190,5 +195,12 @@ public class CentresAdminActivity extends AppCompatActivity {
     public void onAddSchoolClick(View view) {
         Intent intent = new Intent(this, AddSchoolActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        nm = new NetworkManager();
+        nm.getSchools(callBack);
     }
 }

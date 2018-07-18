@@ -36,13 +36,15 @@ public class CentresActivity extends AppCompatActivity {
     private SchoolListFragment listSchoolFragment;
     private SchoolListFragment listOtherFragment;
     private Bundle savedInstance;
+    private NetworkManager nm;
+    private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_centres);
 
-        final Spinner spinner = findViewById(R.id.location_spinner_centres);
+        spinner = findViewById(R.id.location_spinner_centres);
         if (savedInstanceState != null) {
             int position = savedInstanceState.getInt("Spinner");
             spinner.setSelection(position);
@@ -52,14 +54,9 @@ public class CentresActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
                 for (Fragment f : getSupportFragmentManager().getFragments()) {
                     ((SchoolListFragment)f).updateList(i);
                 }
-
-//                if (listAllFragment != null) listAllFragment.updateList(i);
-//                if (listSchoolFragment != null) listSchoolFragment.updateList(i);
-//                if (listOtherFragment != null) listOtherFragment.updateList(i);
             }
 
             @Override
@@ -73,11 +70,19 @@ public class CentresActivity extends AppCompatActivity {
         setSupportActionBar((Toolbar) findViewById(R.id.center_toolbar));
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        NetworkManager nm = new NetworkManager();
+        nm = new NetworkManager();
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.please_wait));
         progressDialog.show();
         nm.getSchools(callBack);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        for (Fragment f : getSupportFragmentManager().getFragments()) {
+            ((SchoolListFragment)f).updateList(spinner.getSelectedItemPosition());
+        }
     }
 
     CallBack callBack = new CallBack<List<School>>() {
@@ -121,7 +126,8 @@ public class CentresActivity extends AppCompatActivity {
                     case 0:
                         listAllFragment.fragmentChange(0);
                         break;
-                    case 1:listSchoolFragment.fragmentChange(1);
+                    case 1:
+                        listSchoolFragment.fragmentChange(1);
                         break;
                     case 2:
                         listOtherFragment.fragmentChange(2);
@@ -207,8 +213,6 @@ public class CentresActivity extends AppCompatActivity {
         int position = ((Spinner) findViewById(R.id.location_spinner_centres))
                 .getSelectedItemPosition();
         outState.putInt("Spinner", position);
-
-        Log.d("HEY", String.valueOf(listOtherFragment.getId()));
 
         outState.putInt("all", listAllFragment.getId());
         outState.putInt("school", listSchoolFragment.getId());
